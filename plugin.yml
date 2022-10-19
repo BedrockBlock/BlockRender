@@ -1,0 +1,8 @@
+---
+name: BlockRender
+version: 1.0.0
+main: bedrockblock\BlockRender\Loader
+api: 5.0.0
+src-namespace-prefix: bedrockblock\BlockRender
+author: BedrockblockTeam
+...
