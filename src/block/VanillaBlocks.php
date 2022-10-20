@@ -16,8 +16,10 @@ use pocketmine\utils\CloningRegistryTrait;
 /**
  * @method static Dispenser DISPENSER()
  * @method static Dropper DROPPER()
+ * @method static End_Gateway END_GATEWAY()
  * @method static Piston PISTON()
  * @method static Piston_Arm_Collision PISTON_ARM_COLLISION()
+ * @method static Powder_Snow POWDER_SNOW()
  */
 final class VanillaBlocks{
 	use CloningRegistryTrait;
@@ -54,6 +56,16 @@ final class VanillaBlocks{
 			self::nextBid(),
 			'Dropper',
 			new Info(BreakInfo::pickaxe(3.5))
+		));
+		self::register('end_gateway', new EndGateway(
+			self::nextBid(),
+			'End Gateway',
+			new Info(BreakInfo::indestructible())
+		));
+		self::register('powder_snow', new PowderSnow(
+			self::nextBid(),
+			'Powder Snow',
+			new Info(new BreakInfo(0.25))
 		));
 		self::registerPiston();
 	}

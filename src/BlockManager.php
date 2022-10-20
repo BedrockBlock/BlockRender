@@ -73,6 +73,7 @@ final class BlockManager{
 					->setTriggeredBit($in->readBool(StateNames::TRIGGERED_BIT));
 			}
 		);
+		self::register(VanillaBlocks::END_GATEWAY());
 		self::register(
 			VanillaBlocks::PISTON(),
 			static fn(Piston $block) : Writer => Writer::create(TypeNames::PISTON)->writeFacingDirection($block->getFacing()),
@@ -83,6 +84,7 @@ final class BlockManager{
 			static fn(PistonArmCollision $block) : Writer => Writer::create(TypeNames::PISTON_ARM_COLLISION)->writeFacingDirection($block->getFacing()),
 			static fn(Reader $in) : PistonArmCollision => VanillaBlocks::PISTON_ARM_COLLISION()->setFacing($in->readFacingDirection())
 		);
+		self::register(VanillaBlocks::POWDER_SNOW());
 	}
 
 	/**
