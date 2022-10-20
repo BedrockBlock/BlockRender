@@ -10,7 +10,8 @@ use bedrockblock\BlockRender\block\{
 	Dropper,
 	Piston,
 	PistonArmCollision,
-	SculkShrieker
+	SculkShrieker,
+	SeaGrass,
 };
 
 use pocketmine\block\{
@@ -99,11 +100,19 @@ final class BlockManager{
 					->setSummon($in->readBool(StateNames::CAN_SUMMON));
 			}
 		);
+		self::register(
+			VanillaBlocks::SEAGRASS(),
+			static fn(SeaGrass $block) : Writer => Writer::create(TypeNames::SEAGRASS)->writeString(StateNames::SEA_GRASS_TYPE, $block->getType()),
+			static fn(Reader $in) : SeaGrass => VanillaBlocks::SEAGRASS()->setType($in->readString(StateNames::SEA_GRASS_TYPE))
+		);
 	}
 
 	private static function registerSimples() : void{
+		self::register(VanillaBlocks::CRIMSON_FUNGUS());
 		self::register(VanillaBlocks::END_GATEWAY());
+		self::register(VanillaBlocks::MOSS_CARPET());
 		self::register(VanillaBlocks::POWDER_SNOW());
+		self::register(VanillaBlocks::WARPED_FUNGUS());
 	}
 
 	/**

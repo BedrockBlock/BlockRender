@@ -15,13 +15,17 @@ use pocketmine\block\{
 use pocketmine\utils\CloningRegistryTrait;
 
 /**
+ * @method staric Crimson_Fungus CRIMSON_FUNGUS()
  * @method static Dispenser DISPENSER()
  * @method static Dropper DROPPER()
  * @method static End_Gateway END_GATEWAY()
+ * @method static Moss_Carpet MOSS_CARPET()
  * @method static Piston PISTON()
  * @method static Piston_Arm_Collision PISTON_ARM_COLLISION()
  * @method static Powder_Snow POWDER_SNOW()
  * @method static Sculk_Shrieker SCULK_SHRIEKER()
+ * @method static SeaGrass SEAGRASS()
+ * @method static Warped_Fungus  WARPED_FUNGUS()
  */
 final class VanillaBlocks{
 	use CloningRegistryTrait;
@@ -50,6 +54,7 @@ final class VanillaBlocks{
 
 	protected static function setup() : void{
 		self::registerPiston();
+		self::registerFungus();
 
 		self::register('dispenser', new Dispenser(
 			self::nextBid(),
@@ -66,6 +71,11 @@ final class VanillaBlocks{
 			'End Gateway',
 			new Info(BreakInfo::indestructible())
 		));
+		self::register('moss_carpet', new MossCarpet(
+			self::nextBid(),
+			'moss carpet',
+			new Info(new BreakInfo(0.1))
+		));
 		self::register('powder_snow', new PowderSnow(
 			self::nextBid(),
 			'Powder Snow',
@@ -75,6 +85,11 @@ final class VanillaBlocks{
 			self::nextBid(),
 			'Sculk Shrieker',
 			new Info(self::blockToolHoe(3.0))
+		));
+		self::register('seagrass', new SeaGrass(
+			self::nextBid(),
+			'Seagrass',
+			new Info(self::blockToolShears(0.0))
 		));
 	}
 
@@ -92,8 +107,26 @@ final class VanillaBlocks{
 		));
 	}
 
+	private static function registerFungus() : void{
+		$fungusInfo = new Info(new BreakInfo(0));
+		self::register('warped_fungus', new WarpedFungus(
+			self::nextBid(),
+			'Warped Fungus',
+			$fungusInfo
+		));
+		self::register('crimson_fungus', new CrimsonFungus(
+			self::nextBid(),
+			'Crimson Fungus',
+			$fungusInfo
+		));
+	}
+
 	private static function blockToolHoe(float $hardness, ?ToolTier $toolTier = null, ?float $blastResistance = null) : BreakInfo{
 		return new BreakInfo($hardness, ToolType::HOE, $toolTier?->getHarvestLevel() ?? 0, $blastResistance);
+	}
+
+	private static function blockToolShears(float $hardness, ?ToolTier $toolTier = null, ?float $blastResistance = null) : BreakInfo{
+		return new BreakInfo($hardness, ToolType::SHEARS, $toolTier?->getHarvestLevel() ?? 0, $blastResistance);
 	}
 
 }
