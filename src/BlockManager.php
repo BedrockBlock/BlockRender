@@ -9,7 +9,8 @@ use bedrockblock\BlockRender\block\{
 	Dispenser,
 	Dropper,
 	Piston,
-	PistonArmCollision
+	PistonArmCollision,
+	SculkShrieker
 };
 
 use pocketmine\block\{
@@ -47,6 +48,8 @@ final class BlockManager{
 	}
 
 	public static function init() : void{
+		self::registerSimples();
+
 		self::register(
 			VanillaBlocks::DISPENSER(),
 			static function(Dispenser $block) : Writer{
@@ -73,7 +76,6 @@ final class BlockManager{
 					->setTriggeredBit($in->readBool(StateNames::TRIGGERED_BIT));
 			}
 		);
-		self::register(VanillaBlocks::END_GATEWAY());
 		self::register(
 			VanillaBlocks::PISTON(),
 			static fn(Piston $block) : Writer => Writer::create(TypeNames::PISTON)->writeFacingDirection($block->getFacing()),
@@ -84,6 +86,23 @@ final class BlockManager{
 			static fn(PistonArmCollision $block) : Writer => Writer::create(TypeNames::PISTON_ARM_COLLISION)->writeFacingDirection($block->getFacing()),
 			static fn(Reader $in) : PistonArmCollision => VanillaBlocks::PISTON_ARM_COLLISION()->setFacing($in->readFacingDirection())
 		);
+		self::register(
+			VanillaBlocks::SCULK_SHRIEKER(),
+			static function(SculkShrieker $block) : Writer{
+				return Writer::create(TypeNames::SCULK_SHRIEKER)
+					->writeBool(StateNames::ACTIVE, $block->isActive())
+					->writeBool(StateNames::CAN_SUMMON, $block->canSummon());
+			},
+			static function(Reader $in) : SculkShrieker{
+				return VanillaBlocks::SCULK_SHRIEKER()
+					->setActive($in->readBool(StateNames::ACTIVE))
+					->setSummon($in->readBool(StateNames::CAN_SUMMON));
+			}
+		);
+	}
+
+	private static function registerSimples() : void{
+		self::register(VanillaBlocks::END_GATEWAY());
 		self::register(VanillaBlocks::POWDER_SNOW());
 	}
 

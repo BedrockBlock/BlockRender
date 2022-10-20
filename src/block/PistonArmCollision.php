@@ -6,7 +6,10 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\{Block, Opaque};
 use pocketmine\block\utils\AnyFacingTrait;
-use pocketmine\data\runtime\{RuntimeDataReader, RuntimeDataWriter};
+use pocketmine\data\runtime\{
+	RuntimeDataReader,
+	RuntimeDataWriter
+};
 use pocketmine\item\Item;
 use pocketmine\math\{Vector3, Facing};
 use pocketmine\player\Player;

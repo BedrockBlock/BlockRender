@@ -9,7 +9,8 @@ use pocketmine\block\{
 	BlockTypeIds,
 	BlockBreakInfo as BreakInfo,
 	BlockIdentifier as BID,
-	BlockTypeInfo as Info
+	BlockTypeInfo as Info,
+	BlockToolType as ToolType
 };
 use pocketmine\utils\CloningRegistryTrait;
 
@@ -20,6 +21,7 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static Piston PISTON()
  * @method static Piston_Arm_Collision PISTON_ARM_COLLISION()
  * @method static Powder_Snow POWDER_SNOW()
+ * @method static Sculk_Shrieker SCULK_SHRIEKER()
  */
 final class VanillaBlocks{
 	use CloningRegistryTrait;
@@ -47,6 +49,8 @@ final class VanillaBlocks{
 	}
 
 	protected static function setup() : void{
+		self::registerPiston();
+
 		self::register('dispenser', new Dispenser(
 			self::nextBid(),
 			'Dispenser',
@@ -67,7 +71,11 @@ final class VanillaBlocks{
 			'Powder Snow',
 			new Info(new BreakInfo(0.25))
 		));
-		self::registerPiston();
+		self::register('sculk_shrieker', new SculkShrieker(
+			self::nextBid(),
+			'Sculk Shrieker',
+			new Info(self::blockToolHoe(3.0))
+		));
 	}
 
 	private static function registerPiston() : void{
@@ -82,6 +90,10 @@ final class VanillaBlocks{
 			'Piston Arm Collision',
 			$pistonInfo
 		));
+	}
+
+	private static function blockToolHoe(float $hardness, ?ToolTier $toolTier = null, ?float $blastResistance = null) : BreakInfo{
+		return new BreakInfo($hardness, ToolType::HOE, $toolTier?->getHarvestLevel() ?? 0, $blastResistance);
 	}
 
 }

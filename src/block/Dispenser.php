@@ -7,7 +7,10 @@ namespace bedrockblock\BlockRender\block;
 use bedrockblock\BlockRender\utils\PlayerYFacingTrait;
 
 use pocketmine\block\Opaque;
-use pocketmine\data\runtime\{RuntimeDataReader, RuntimeDataWriter};
+use pocketmine\data\runtime\{
+	RuntimeDataReader,
+	RuntimeDataWriter
+};
 
 class Dispenser extends Opaque{
 	use PlayerYFacingTrait;
