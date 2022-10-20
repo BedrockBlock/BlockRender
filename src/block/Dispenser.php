@@ -9,7 +9,7 @@ use bedrockblock\BlockRender\utils\PlayerYFacingTrait;
 use pocketmine\block\Opaque;
 use pocketmine\data\runtime\{RuntimeDataReader, RuntimeDataWriter};
 
-class Dropper extends Opaque{
+class Dispenser extends Opaque{
 	use PlayerYFacingTrait;
 
 	public bool $triggeredBit = false;

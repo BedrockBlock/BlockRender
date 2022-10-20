@@ -14,13 +14,20 @@ use pocketmine\block\{
 use pocketmine\utils\CloningRegistryTrait;
 
 /**
+ * @method static Dispenser DISPENSER()
  * @method static Dropper DROPPER()
+ * @method static Piston PISTON()
+ * @method static Piston_Arm_Collision PISTON_ARM_COLLISION()
  */
 final class VanillaBlocks{
 	use CloningRegistryTrait;
 
 	private function __construct(){
 		//NOOP
+	}
+
+	private static function nextBid() : Bid{
+		return new Bid(BlockTypeIds::newId());
 	}
 
 	protected static function register(string $name, Block $block) : void{
@@ -38,10 +45,30 @@ final class VanillaBlocks{
 	}
 
 	protected static function setup() : void{
+		self::register('dispenser', new Dispenser(
+			self::nextBid(),
+			'Dispenser',
+			new Info(BreakInfo::pickaxe(3.5))
+		));
 		self::register('dropper', new Dropper(
-			new BID(BlockTypeIds::newId()),
+			self::nextBid(),
 			'Dropper',
 			new Info(BreakInfo::pickaxe(3.5))
+		));
+		self::registerPiston();
+	}
+
+	private static function registerPiston() : void{
+		$pistonInfo = new Info(BreakInfo::pickaxe(1.5));
+		self::register('piston', new Piston(
+			self::nextBid(),
+			'Piston',
+			$pistonInfo
+		));
+		self::register('piston_arm_collision', new PistonArmCollision(
+			self::nextBid(),
+			'Piston Arm Collision',
+			$pistonInfo
 		));
 	}
 
