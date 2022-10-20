@@ -108,6 +108,7 @@ final class BlockManager{
 	}
 
 	private static function registerSimples() : void{
+		self::register(VanillaBlocks::ALLOW());
 		self::register(VanillaBlocks::CRIMSON_FUNGUS());
 		self::register(VanillaBlocks::END_GATEWAY());
 		self::register(VanillaBlocks::MOSS_CARPET());
@@ -134,7 +135,11 @@ final class BlockManager{
 
 		StringToItemParser::getInstance()->registerBlock($name, fn() => clone $block);
 
-		BlockFactory::getInstance()->register($block, false);
+		try{
+			BlockFactory::getInstance()->register($block);
+		}catch(\InvalidArgumentException $e){
+			//NOOP
+		}
 	}
 
 }

@@ -17,6 +17,7 @@ use pocketmine\world\BlockTransaction;
 
 class PistonArmCollision extends Opaque{
 	use AnyFacingTrait;
+	use BlockTypeIdTrait;
 
 	protected function describeState(RuntimeDataReader|RuntimeDataWriter $w) : void{
 		$w->facing($this->facing);

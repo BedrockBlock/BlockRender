@@ -6,4 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Flowable;
 
-class CrimsonFungus extends Flowable{ }
+class CrimsonFungus extends Flowable{
+	use BlockTypeIdTrait;
+}

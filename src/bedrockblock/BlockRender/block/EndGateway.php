@@ -6,4 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Opaque;
 
-class EndGateway extends Opaque{ }
+class EndGateway extends Opaque{
+	use BlockTypeIdTrait;
+}

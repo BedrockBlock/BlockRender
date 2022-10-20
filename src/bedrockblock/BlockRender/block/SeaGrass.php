@@ -11,6 +11,7 @@ use pocketmine\data\runtime\{
 };
 
 class SeaGrass extends Flowable{
+	use BlockTypeIdTrait;
 
 	public const DEFAULT = 'default';
 	public const DOUBLE_TOP = 'double_top';

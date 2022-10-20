@@ -11,6 +11,7 @@ use pocketmine\data\runtime\{
 };
 
 class SculkShrieker extends Opaque{
+	use BlockTypeIdTrait;
 
 	private bool $isActive = false;
 

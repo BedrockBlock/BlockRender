@@ -14,6 +14,7 @@ use pocketmine\data\runtime\{
 
 class Dispenser extends Opaque{
 	use PlayerYFacingTrait;
+	use BlockTypeIdTrait;
 
 	public bool $triggeredBit = false;
 

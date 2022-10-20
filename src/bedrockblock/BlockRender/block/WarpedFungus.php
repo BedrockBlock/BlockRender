@@ -6,4 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Flowable;
 
-class WarpedFungus extends Flowable{ }
+class WarpedFungus extends Flowable{
+	use BlockTypeIdTrait;
+}

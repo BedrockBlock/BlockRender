@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace bedrockblock\BlockRender\block;
 
-use pocketmine\block\Flowable;
+use pocketmine\block\Opaque;
 
-class PowderSnow extends Flowable{
+class Allow extends Opaque{
 	use BlockTypeIdTrait;
 }
