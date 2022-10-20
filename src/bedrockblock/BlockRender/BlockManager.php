@@ -6,12 +6,15 @@ namespace bedrockblock\BlockRender;
 
 use bedrockblock\BlockRender\block\VanillaBlocks;
 use bedrockblock\BlockRender\block\{
+	AmethystCluster,
+	AzaleaLeaves,
+	AzaleaLeavesFlowered,
 	Dispenser,
 	Dropper,
 	Piston,
 	PistonArmCollision,
 	SculkShrieker,
-	SeaGrass,
+	SeaGrass
 };
 
 use pocketmine\block\{
@@ -51,6 +54,37 @@ final class BlockManager{
 	public static function init() : void{
 		self::registerSimples();
 
+		self::register(
+			VanillaBlocks::AMETHYST_CLUSTER(),
+			static fn(AmethystCluster $block) : Writer => Writer::create(TypeNames::AMETHYST_CLUSTER)->writeFacingDirection($block->getFacing()),
+			static fn(Reader $in) : AmethystCluster => VanillaBlocks::AMETHYST_CLUSTER()->setFacing($in->readFacingDirection())
+		);
+		self::register(
+			VanillaBlocks::AZALEA_LEAVES(),
+			static function(AzaleaLeaves$block) : Writer{
+				return Writer::create(TypeNames::AZALEA_LEAVES)
+					->writeBool(StateNames::PERSISTENT_BIT, $block->isPersistentBit())
+					->writeBool(StateNames::UPDATE_BIT, $block->isUpdateBit());
+			},
+			static function(Reader $in) : AzaleaLeaves{
+				return VanillaBlocks::AZALEA_LEAVES()
+					->setPersistentBit($in->readBool(StateNames::PERSISTENT_BIT))
+					->setUpdateBit($in->readBool(StateNames::UPDATE_BIT));
+			}
+		);
+		self::register(
+			VanillaBlocks::AZALEA_LEAVES_FLOWERED(),
+			static function(AzaleaLeavesFlowered $block) : Writer{
+				return Writer::create(TypeNames::AZALEA_LEAVES_FLOWERED)
+					->writeBool(StateNames::PERSISTENT_BIT, $block->isPersistentBit())
+					->writeBool(StateNames::UPDATE_BIT, $block->isUpdateBit());
+			},
+			static function(Reader $in) : AzaleaLeavesFlowered{
+				return VanillaBlocks::AZALEA_LEAVES_FLOWERED()
+					->setPersistentBit($in->readBool(StateNames::PERSISTENT_BIT))
+					->setUpdateBit($in->readBool(StateNames::UPDATE_BIT));
+			}
+		);
 		self::register(
 			VanillaBlocks::DISPENSER(),
 			static function(Dispenser $block) : Writer{
@@ -109,6 +143,7 @@ final class BlockManager{
 
 	private static function registerSimples() : void{
 		self::register(VanillaBlocks::ALLOW());
+		self::register(VanillaBlocks::AZALEA());
 		self::register(VanillaBlocks::CRIMSON_FUNGUS());
 		self::register(VanillaBlocks::END_GATEWAY());
 		self::register(VanillaBlocks::MOSS_CARPET());

@@ -16,7 +16,7 @@ class Dispenser extends Opaque{
 	use PlayerYFacingTrait;
 	use BlockTypeIdTrait;
 
-	public bool $triggeredBit = false;
+	private bool $triggeredBit = false;
 
 	public function getRequiredStateDataBits() : int{ return 4; }
 

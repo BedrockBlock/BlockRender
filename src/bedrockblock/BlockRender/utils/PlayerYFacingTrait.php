@@ -24,11 +24,11 @@ trait PlayerYFacingTrait{
 			$x = abs($playerPos->getFloorX() - $this->position->getX());
 			$y = $playerPos->getFloorY() - $this->position->getY();
 			$z = abs($playerPos->getFloorZ() - $this->position->getZ());
-			if ($y > 0 && $x < 2 && $z < 2) {
+			if($y > 0 && $x < 2 && $z < 2){
 				$this->setFacing(Facing::UP);
-			} elseif ($y < -1 && $x < 2 && $z < 2) {
+			}elseif ($y < -1 && $x < 2 && $z < 2){
 				$this->setFacing(Facing::DOWN);
-			} else {
+			}else{
 				$this->setFacing(Facing::opposite($player->getHorizontalFacing()));
 			}
 		}

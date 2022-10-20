@@ -15,6 +15,10 @@ use pocketmine\utils\CloningRegistryTrait;
 
 /**
  * @method static Allow ALLOW()
+ * @method static AmethystCluster AMETHYST_CLUSTER()
+ * @method static Azalea AZALEA()
+ * @method static AzaleaLeaves AZALEA_LEAVES()
+ * @method static AzaleaLeavesFlowered AZALEA_LEAVES_FLOWERED()
  * @method staric CrimsonFungus CRIMSON_FUNGUS()
  * @method static Dispenser DISPENSER()
  * @method static Dropper DROPPER()
@@ -49,13 +53,19 @@ final class VanillaBlocks{
 	}
 
 	protected static function setup() : void{
-		self::registerPiston();
+		self::registerAzaleas();
 		self::registerFungus();
+		self::registerPiston();
 
 		self::register('allow', new Allow(
 			new BID(Allow::TYPE_ID()),
 			'Allow',
 			new Info(BreakInfo::indestructible())
+		));
+		self::register('amethyst_cluster', new AmethystCluster(
+			new BID(AmethystCluster::TYPE_ID()),
+			'Amethyst Cluster',
+			new Info(BreakInfo::pickaxe(1.5))
 		));
 		self::register('dispenser', new Dispenser(
 			new BID(Dispenser::TYPE_ID()),
@@ -109,7 +119,7 @@ final class VanillaBlocks{
 	}
 
 	private static function registerFungus() : void{
-		$fungusInfo = new Info(new BreakInfo(0));
+		$fungusInfo = new Info(self::anyZero());
 		self::register('warped_fungus', new WarpedFungus(
 			new BID(WarpedFungus::TYPE_ID()),
 			'Warped Fungus',
@@ -120,6 +130,29 @@ final class VanillaBlocks{
 			'Crimson Fungus',
 			$fungusInfo
 		));
+	}
+
+	private static function registerAzaleas() : void{
+		$info = new Info(self::anyZero());
+		self::register('azalea', new Azalea(
+			new BID(Azalea::TYPE_ID()),
+			'Azalea',
+			$info
+		));
+		self::register('azalea_leaves', new AzaleaLeaves(
+			new BID(AzaleaLeaves::TYPE_ID()),
+			'Azalea Leaves',
+			$info
+		));
+		self::register('azalea_leaves_flowered', new AzaleaLeavesFlowered(
+			new BID(AzaleaLeavesFlowered::TYPE_ID()),
+			'Azalea Leaves Flowered',
+			$info
+		));
+	}
+
+	private static function anyZero() : BreakInfo{
+		return new BreakInfo(0);
 	}
 
 	private static function blockToolHoe(float $hardness, ?ToolTier $toolTier = null, ?float $blastResistance = null) : BreakInfo{

@@ -10,10 +10,6 @@ use pocketmine\data\runtime\{
 	RuntimeDataReader,
 	RuntimeDataWriter
 };
-use pocketmine\item\Item;
-use pocketmine\math\{Vector3, Facing};
-use pocketmine\player\Player;
-use pocketmine\world\BlockTransaction;
 
 class PistonArmCollision extends Opaque{
 	use AnyFacingTrait;
