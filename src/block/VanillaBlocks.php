@@ -13,6 +13,9 @@ use pocketmine\block\{
 };
 use pocketmine\utils\CloningRegistryTrait;
 
+/**
+ * @method static Dropper DROPPER()
+ */
 final class VanillaBlocks{
 	use CloningRegistryTrait;
 
@@ -35,7 +38,11 @@ final class VanillaBlocks{
 	}
 
 	protected static function setup() : void{
-		
+		self::register('dropper', new Dropper(
+			new BID(BlockTypeIds::newId()),
+			'Dropper',
+			new Info(BreakInfo::pickaxe(3.5))
+		));
 	}
 
 }

@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace bedrockblock\BlockRender;
 
+use bedrockblock\BlockRender\block\{
+	Dropper,
+	VanillaBlocks
+};
+
 use pocketmine\block\{
 	Block,
 	BlockFactory,
@@ -24,9 +29,9 @@ use pocketmine\data\bedrock\block\convert\{
 	BlockObjectToStateSerializer,
 	BlockStateToObjectDeserializer
 };
-use pocketmine\utils\SingletonTrait;
 use pocketmine\world\format\io\GlobalBlockStateHandlers;
 use pocketmine\item\StringToItemParser;
+use pocketmine\utils\Utils;
 
 use Closure;
 
@@ -34,46 +39,50 @@ use function str_replace;
 use function strtolower;
 
 final class BlockManager{
-	use SingletonTrait;
 
-	private BlockFactory $blockFactory;
-
-	private BlockObjectToStateSerializer $serializer;
-	private BlockStateToObjectDeserializer $deserializer;
-
-	private StringToItemParser $itemParser;
-
-	public function __construct(){
-		self::setInstance($this);
-		$this->blockFactory = BlockFactory::getInstance();
-		$this->serializer = GlobalBlockStateHandlers::getSerializer();
-		$this->deserializer = GlobalBlockStateHandlers::getDeserializer();
-		$this->itemParser = StringToItemParser::getInstance();
-		$this->init();
+	private function __construct(){
+		//NOOP
 	}
 
-	private function init() : void{
-		
+	public static function init() : void{
+		self::register(
+			block: VanillaBlocks::DROPPER(),
+			serializeCallback: function(Dropper $block) : Writer{
+				return Writer::create(TypeNames::DROPPER)
+					->writeFacingDirection($block->getFacing())
+					->writeBool(StateNames::TRIGGERED_BIT, $block->isTriggeredBit());
+			},
+			deserializeCallback: function(Reader $in) : Dropper{
+				return VanillaBlocks::DROPPER()
+					->setFacing($in->readFacingDirection())
+					->setTriggeredBit($in->readBool(StateNames::TRIGGERED_BIT));
+			}
+		);
 	}
 
-	public function register(
+	/**
+	 * @phpstan-template TBlockType of Block
+	 * @phpstan-param TBlockType $block
+	 * @phpstan-param null|Closure(TBlockType) : Writer $serializeCallback
+	 * @phpstan-param null|Closure(Readerr) : TBlockType $deserializeCallback
+	 */
+	public static function register(
 		Block $block,
 		bool $registerItemParserName = true,
 		?Closure $serializeCallback = null,
 		?Closure $deserializeCallback = null
-	){
+	) : void{
 		$name = strtolower(str_replace(' ', '_', $block->getName()));
 		$namespace = 'minecraft:' . $name;
 
-		$this->serializer->map($block, $serializeCallback ?? fn() => Writer::create($namespace));
-		$this->deserializer->map($namespace, $deserializeCallback ?? fn() => clone $block);
+		GlobalBlockStateHandlers::getSerializer()->map($block, $serializeCallback ?? static fn() : Writer => Writer::create($namespace));
+		GlobalBlockStateHandlers::getDeserializer()->map($namespace, $deserializeCallback ?? static fn() : Block=> clone $block);
 
 		if($registerItemParserName){
-			$this->itemParser->registerBlock($name, fn() => clone $block);
-			$this->itemParser->registerBlock($namespace, fn() => clone $block);
+			StringToItemParser::getInstance()->registerBlock($name, fn() => clone $block);
 		}
 
-		$blockFactory->register($block, false);
+		BlockFactory::getInstance()->register($block, false);
 	}
 
 }

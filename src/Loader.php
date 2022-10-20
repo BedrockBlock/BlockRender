@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace bedrockblock\BlockRender;
 
 use pocketmine\plugin\PluginBase;
+use pocketmine\scheduler\AsyncTask;
 
 final class Loader extends PluginBase{
 
-	private BlockManager $manager;
-
 	protected function onEnable() : void{
-		$this->manager = new BlockManager();
-	}
-
-	public function getManager() : BlockManager{
-		return $this->manager;
+		BlockManager::init();
+		$pool = $this->getServer()->getAsyncPool();
+		$pool->addWorkerStartHook(function(int $worker) use($pool): void{
+			$pool->submitTaskToWorker(new class extends AsyncTask{
+				public function onRun() : void{
+					BlockManager::init();
+				}
+			}, $worker);
+		});
 	}
 
 }
