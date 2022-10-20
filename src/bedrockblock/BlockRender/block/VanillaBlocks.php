@@ -15,17 +15,17 @@ use pocketmine\block\{
 use pocketmine\utils\CloningRegistryTrait;
 
 /**
- * @method staric Crimson_Fungus CRIMSON_FUNGUS()
+ * @method staric CrimsonFungus CRIMSON_FUNGUS()
  * @method static Dispenser DISPENSER()
  * @method static Dropper DROPPER()
- * @method static End_Gateway END_GATEWAY()
- * @method static Moss_Carpet MOSS_CARPET()
+ * @method static EndGateway END_GATEWAY()
+ * @method static MossCarpet MOSS_CARPET()
  * @method static Piston PISTON()
- * @method static Piston_Arm_Collision PISTON_ARM_COLLISION()
- * @method static Powder_Snow POWDER_SNOW()
- * @method static Sculk_Shrieker SCULK_SHRIEKER()
+ * @method static PistonArmCollision PISTON_ARM_COLLISION()
+ * @method static PowderSnow POWDER_SNOW()
+ * @method static SculkShrieker SCULK_SHRIEKER()
  * @method static SeaGrass SEAGRASS()
- * @method static Warped_Fungus  WARPED_FUNGUS()
+ * @method static WarpedFungus  WARPED_FUNGUS()
  */
 final class VanillaBlocks{
 	use CloningRegistryTrait;
