@@ -24,6 +24,10 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static Beehive BEEHIVE()
  * @method static BigDripleaf BIG_DRIPLEAF()
  * @method static BorderBlock BORDER_BLOCK()
+ * @method static BubbleColumn BUBBLE_COLUMN()
+ * @method static BuddingAmethyst BUDDING_AMETHYST()
+ * @method static Camera CAMERA()
+ * @method static Campfire CAMPFIRE()
  * Chain CHAIN()
  * @method static CrimsonFungus CRIMSON_FUNGUS()
  * @method static Deny DENY()
@@ -90,6 +94,26 @@ final class VanillaBlocks{
 			new BID(BigDripleaf::TYPE_ID()),
 			'Big Dripleaf',
 			new Info(BreakInfo::axe(0.1))
+		));
+		self::register('bubble_column', new BubbleColumn(
+			new BID(BubbleColumn::TYPE_ID()),
+			'Bubble Column',
+			new Info(self::anyZero())
+		));
+		self::register('budding_amethyst', new BuddingAmethyst(
+			new BID(BuddingAmethyst::TYPE_ID()),
+			'Budding Amethyst',
+			new Info(BreakInfo::pickaxe(1.5))
+		));
+		self::register('camera', new Camera(
+			new BID(Camera::TYPE_ID()),
+			'Camera',
+			new Info(self::anyZero())
+		));
+		self::register('campfire', new Campfire(
+			new BID(Campfire::TYPE_ID()),
+			'Campfire',
+			new Info(BreakInfo::axe(2.0))
 		));
 		/*self::register('chain', new Chain(
 			new BID(Chain::TYPE_ID()),

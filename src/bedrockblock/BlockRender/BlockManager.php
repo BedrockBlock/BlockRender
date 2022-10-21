@@ -13,6 +13,8 @@ use bedrockblock\BlockRender\block\{
 	Beehive,
 	BigDripleaf,
 	BorderBlock,
+	BubbleColumn,
+	Campfire,
 	Chain,
 	Dispenser,
 	Dropper,
@@ -139,6 +141,24 @@ final class BlockManager{
 			static fn(BorderBlock $block) : Writer => SerializerHelper::encodeWall($block, new Writer(TypeNames::BORDER_BLOCK)),
 			static fn(Reader $in) : BorderBlock => DeserializerHelper::decodeWall(VanillaBlocks::BORDER_BLOCK(), $in)
 		);
+		self::register(
+			VanillaBlocks::BUBBLE_COLUMN(),
+			static fn(BubbleColumn $block) : Wrter => Writer::create(TypeNames::BUBBLE_COLUMN)->writeBool(StateNames::DRAG_DOWN, $block->isDragDown()),
+			static fn(Reader $in) : BubbleColumn => VanillaBlocks::BUBBLE_COLUMN()->setDragDown($in->readBool(StateNames::DRAG_DOWN))
+		);
+		self::register(
+			VanillaBlocks::CAMPFIRE(),
+			static function(Campfire $block) : Writer{
+				return Writer::create(TypeNames::CAMPFIRE)
+					->writeLegacyHorizontalFacing($block->getFacing())
+					->writeBool(StateNames::EXTINGUISHED, $block->isExtinguished());
+			},
+			static function(Reader $in) : Campfire{
+				return VanillaBlocks::CAMPFIRE()
+					->setFacing($in->readLegacyHorizontalFacing())
+					->setExtinguished($in->readBool(StateNames::EXTINGUISHED));
+			}
+		);
 		/*self::register(
 			VanillaBlocks::CHAIN(), 
 			static fn(Chain $block) => Writer::create(TypeNames::CHAIN)
@@ -208,6 +228,8 @@ final class BlockManager{
 	private static function registerSimples() : void{
 		self::register(VanillaBlocks::ALLOW());
 		self::register(VanillaBlocks::AZALEA());
+		self::register(VanillaBlocks::BUDDING_AMETHYST());
+		self::register(VanillaBlocks::CAMERA());
 		self::register(VanillaBlocks::CRIMSON_FUNGUS());
 		self::register(VanillaBlocks::DENY());
 		self::register(VanillaBlocks::END_GATEWAY());
