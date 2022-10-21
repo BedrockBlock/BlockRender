@@ -20,6 +20,9 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static Azalea AZALEA()
  * @method static AzaleaLeaves AZALEA_LEAVES()
  * @method static AzaleaLeavesFlowered AZALEA_LEAVES_FLOWERED()
+ * @method static BeeNest BEE_NEST()
+ * @method static Beehive BEEHIVE()
+ * @method static BigDripleaf BIG_DRIPLEAF()
  * @method static BorderBlock BORDER_BLOCK()
  * Chain CHAIN()
  * @method static CrimsonFungus CRIMSON_FUNGUS()
@@ -72,6 +75,21 @@ final class VanillaBlocks{
 			new BID(AmethystCluster::TYPE_ID()),
 			'Amethyst Cluster',
 			new Info(BreakInfo::pickaxe(1.5))
+		));
+		self::register('bee_nest', new BeeNest(
+			new BID(BeeNest::TYPE_ID()),
+			'Bee Nest',
+			new Info(BreakInfo::axe(0.3))
+		));
+		self::register('beehive', new Beehive(
+			new BID(Beehive::TYPE_ID()),
+			'Beehive',
+			new Info(BreakInfo::axe(0.6))
+		));
+		self::register('big_dripleaf', new BigDripleaf(
+			new BID(BigDripleaf::TYPE_ID()),
+			'Big Dripleaf',
+			new Info(BreakInfo::axe(0.1))
 		));
 		/*self::register('chain', new Chain(
 			new BID(Chain::TYPE_ID()),

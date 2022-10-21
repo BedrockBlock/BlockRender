@@ -9,6 +9,9 @@ use bedrockblock\BlockRender\block\{
 	AmethystCluster,
 	AzaleaLeaves,
 	AzaleaLeavesFlowered,
+	BeeNest,
+	Beehive,
+	BigDripleaf,
 	BorderBlock,
 	Chain,
 	Dispenser,
@@ -88,6 +91,47 @@ final class BlockManager{
 				return VanillaBlocks::AZALEA_LEAVES_FLOWERED()
 					->setPersistentBit($in->readBool(StateNames::PERSISTENT_BIT))
 					->setUpdateBit($in->readBool(StateNames::UPDATE_BIT));
+			}
+		);
+		self::register(
+			VanillaBlocks::BEE_NEST(),
+			static function(BeeNest $block) : Writer{
+				return Writer::create(TypeNames::BEE_NEST)
+					->writeLegacyHorizontalFacing($block->getFacing())
+					->writeInt(StateNames::HONEY_LEVEL, $block->getHoneyLevel());
+			},
+			static function(Reader $in) : BeeNest{
+				return VanillaBlocks::BEE_NEST()
+					->setFacing($in->readLegacyHorizontalFacing())
+					->setHoneyLevel($in->readInt(StateNames::HONEY_LEVEL));
+			}
+		);
+		self::register(
+			VanillaBlocks::BEEHIVE(),
+			static function(Beehive $block) : Writer{
+				return Writer::create(TypeNames::BEEHIVE)
+					->writeLegacyHorizontalFacing($block->getFacing())
+					->writeInt(StateNames::HONEY_LEVEL, $block->getHoneyLevel());
+			},
+			static function(Reader $in) : Beehive{
+				return VanillaBlocks::BEEHIVE()
+					->setFacing($in->readLegacyHorizontalFacing())
+					->setHoneyLevel($in->readInt(StateNames::HONEY_LEVEL));
+			}
+		);
+		self::register(
+			VanillaBlocks::BIG_DRIPLEAF(),
+			static function(BigDripleaf $block) : Writer{
+				return Writer::create(TypeNames::BIG_DRIPLEAF)
+					->writeLegacyHorizontalFacing($block->getFacing())
+					->writeBool(StateNames::BIG_DRIPLEAF_HEAD, $block->isHead())
+					->writeString(StateNames::BIG_DRIPLEAF_TILT, $block->getTilt());
+			},
+			static function(Reader $in) : BigDripleaf{
+				return VanillaBlocks::BIG_DRIPLEAF()
+					->setFacing($in->readLegacyHorizontalFacing())
+					->setHead($in->readBool(StateNames::BIG_DRIPLEAF_HEAD))
+					->setTilt($in->readString(StateNames::BIG_DRIPLEAF_TILT));
 			}
 		);
 		self::register(
