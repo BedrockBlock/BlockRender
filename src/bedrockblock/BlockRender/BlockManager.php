@@ -61,7 +61,7 @@ final class BlockManager{
 		);
 		self::register(
 			VanillaBlocks::AZALEA_LEAVES(),
-			static function(AzaleaLeaves$block) : Writer{
+			static function(AzaleaLeaves $block) : Writer{
 				return Writer::create(TypeNames::AZALEA_LEAVES)
 					->writeBool(StateNames::PERSISTENT_BIT, $block->isPersistentBit())
 					->writeBool(StateNames::UPDATE_BIT, $block->isUpdateBit());
