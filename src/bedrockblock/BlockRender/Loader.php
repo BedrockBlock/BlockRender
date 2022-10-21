@@ -19,6 +19,8 @@ final class Loader extends PluginBase{
 				}
 			}, $worker);
 		});
+
+		ItemManager::init();
 	}
 
 }

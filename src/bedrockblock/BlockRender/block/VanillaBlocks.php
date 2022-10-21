@@ -11,6 +11,7 @@ use pocketmine\block\{
 	BlockTypeInfo as Info,
 	BlockToolType as ToolType
 };
+use pocketmine\item\ToolTier;
 use pocketmine\utils\CloningRegistryTrait;
 
 /**
@@ -19,7 +20,10 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static Azalea AZALEA()
  * @method static AzaleaLeaves AZALEA_LEAVES()
  * @method static AzaleaLeavesFlowered AZALEA_LEAVES_FLOWERED()
- * @method staric CrimsonFungus CRIMSON_FUNGUS()
+ * @method static BorderBlock BORDER_BLOCK()
+ * Chain CHAIN()
+ * @method static CrimsonFungus CRIMSON_FUNGUS()
+ * @method static Deny DENY()
  * @method static Dispenser DISPENSER()
  * @method static Dropper DROPPER()
  * @method static EndGateway END_GATEWAY()
@@ -27,6 +31,7 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static Piston PISTON()
  * @method static PistonArmCollision PISTON_ARM_COLLISION()
  * @method static PowderSnow POWDER_SNOW()
+ * @method static ReinforcedDeepslate REINFORCED_DEEPSLATE()
  * @method static SculkShrieker SCULK_SHRIEKER()
  * @method static SeaGrass SEAGRASS()
  * @method static WarpedFungus  WARPED_FUNGUS()
@@ -56,6 +61,7 @@ final class VanillaBlocks{
 		self::registerAzaleas();
 		self::registerFungus();
 		self::registerPiston();
+		self::registerWall();
 
 		self::register('allow', new Allow(
 			new BID(Allow::TYPE_ID()),
@@ -66,6 +72,16 @@ final class VanillaBlocks{
 			new BID(AmethystCluster::TYPE_ID()),
 			'Amethyst Cluster',
 			new Info(BreakInfo::pickaxe(1.5))
+		));
+		/*self::register('chain', new Chain(
+			new BID(Chain::TYPE_ID()),
+			'Chain',
+			new Info(BreakInfo::pickaxe(5, ToolTier::WOOD(), 6))
+		));*/
+		self::register('deny', new Allow(
+			new BID(Deny::TYPE_ID()),
+			'Deny',
+			new Info(BreakInfo::indestructible())
 		));
 		self::register('dispenser', new Dispenser(
 			new BID(Dispenser::TYPE_ID()),
@@ -92,6 +108,11 @@ final class VanillaBlocks{
 			'Powder Snow',
 			new Info(new BreakInfo(0.25))
 		));
+		self::register('reinforced_deepslate', new ReinforcedDeepslate(
+			new BID(ReinforcedDeepslate::TYPE_ID()),
+			'Reinforced Deepslate',
+			new Info(new BreakInfo(55))
+		));
 		self::register('sculk_shrieker', new SculkShrieker(
 			new BID(SculkShrieker::TYPE_ID()),
 			'Sculk Shrieker',
@@ -101,6 +122,14 @@ final class VanillaBlocks{
 			new BID(SeaGrass::TYPE_ID()),
 			'Seagrass',
 			new Info(self::blockToolShears(0.0))
+		));
+	}
+
+	private static function registerWall() : void{
+		self::register('border_block', new BorderBlock(
+			new BID(BorderBlock::TYPE_ID()),
+			'Border Block',
+			new Info(BreakInfo::indestructible())
 		));
 	}
 
@@ -162,5 +191,4 @@ final class VanillaBlocks{
 	private static function blockToolShears(float $hardness, ?ToolTier $toolTier = null, ?float $blastResistance = null) : BreakInfo{
 		return new BreakInfo($hardness, ToolType::SHEARS, $toolTier?->getHarvestLevel() ?? 0, $blastResistance);
 	}
-
 }

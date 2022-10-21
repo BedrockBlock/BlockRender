@@ -9,6 +9,8 @@ use bedrockblock\BlockRender\block\{
 	AmethystCluster,
 	AzaleaLeaves,
 	AzaleaLeavesFlowered,
+	BorderBlock,
+	Chain,
 	Dispenser,
 	Dropper,
 	Piston,
@@ -21,10 +23,11 @@ use pocketmine\block\{
 	Block,
 	BlockFactory,
 	VanillaBlocks as Blocks,
-	BlockTypeInfo as Info, 
+	BlockTypeInfo as Info,
 	BlockBreakInfo as BreakInfo,
-	BlockIdentifier as BID, 
-	BlockToolType as ToolType
+	BlockIdentifier as BID,
+	BlockToolType as ToolType,
+	Wall
 };
 use pocketmine\data\bedrock\block\{
 	BlockStateNames as StateNames,
@@ -35,10 +38,12 @@ use pocketmine\data\bedrock\block\convert\{
 	BlockStateReader as Reader,
 	BlockStateWriter as Writer,
 	BlockObjectToStateSerializer,
-	BlockStateToObjectDeserializer
+	BlockStateToObjectDeserializer,
+	BlockStateSerializerHelper as SerializerHelper,
+	BlockStateDeserializerHelper as DeserializerHelper
 };
-use pocketmine\world\format\io\GlobalBlockStateHandlers;
 use pocketmine\item\StringToItemParser;
+use pocketmine\world\format\io\GlobalBlockStateHandlers;
 
 use Closure;
 
@@ -61,7 +66,7 @@ final class BlockManager{
 		);
 		self::register(
 			VanillaBlocks::AZALEA_LEAVES(),
-			static function(AzaleaLeaves$block) : Writer{
+			static function(AzaleaLeaves $block) : Writer{
 				return Writer::create(TypeNames::AZALEA_LEAVES)
 					->writeBool(StateNames::PERSISTENT_BIT, $block->isPersistentBit())
 					->writeBool(StateNames::UPDATE_BIT, $block->isUpdateBit());
@@ -85,6 +90,21 @@ final class BlockManager{
 					->setUpdateBit($in->readBool(StateNames::UPDATE_BIT));
 			}
 		);
+		self::register(
+			VanillaBlocks::BORDER_BLOCK(), 
+			static fn(BorderBlock $block) : Writer => SerializerHelper::encodeWall($block, new Writer(TypeNames::BORDER_BLOCK)),
+			static fn(Reader $in) : BorderBlock => DeserializerHelper::decodeWall(VanillaBlocks::BORDER_BLOCK(), $in)
+		);
+		/*self::register(
+			VanillaBlocks::CHAIN(), 
+			static fn(Chain $block) => Writer::create(TypeNames::CHAIN)
+				->writePillarAxis($block->getAxis()),
+			static function(Reader $in) : Chain{
+				return VanillaBlocks::CHAIN()
+					->setAxis($in->readPillarAxis());
+			},
+			true
+		);*/
 		self::register(
 			VanillaBlocks::DISPENSER(),
 			static function(Dispenser $block) : Writer{
@@ -145,9 +165,11 @@ final class BlockManager{
 		self::register(VanillaBlocks::ALLOW());
 		self::register(VanillaBlocks::AZALEA());
 		self::register(VanillaBlocks::CRIMSON_FUNGUS());
+		self::register(VanillaBlocks::DENY());
 		self::register(VanillaBlocks::END_GATEWAY());
 		self::register(VanillaBlocks::MOSS_CARPET());
 		self::register(VanillaBlocks::POWDER_SNOW());
+		self::register(VanillaBlocks::REINFORCED_DEEPSLATE());
 		self::register(VanillaBlocks::WARPED_FUNGUS());
 	}
 
@@ -160,7 +182,8 @@ final class BlockManager{
 	public static function register(
 		Block $block,
 		?Closure $serializeCallback = null,
-		?Closure $deserializeCallback = null
+		?Closure $deserializeCallback = null,
+		bool $notAddItemParser = false
 	) : void{
 		$name = strtolower(str_replace(' ', '_', $block->getName()));
 		$namespace = 'minecraft:' . $name;
@@ -168,7 +191,7 @@ final class BlockManager{
 		GlobalBlockStateHandlers::getSerializer()->map($block, $serializeCallback ?? static fn() : Writer => Writer::create($namespace));
 		GlobalBlockStateHandlers::getDeserializer()->map($namespace, $deserializeCallback ?? static fn() : Block => clone $block);
 
-		StringToItemParser::getInstance()->registerBlock($name, fn() => clone $block);
+		if(!$notAddItemParser) StringToItemParser::getInstance()->registerBlock($name, fn() => clone $block);
 
 		try{
 			BlockFactory::getInstance()->register($block);
@@ -176,5 +199,4 @@ final class BlockManager{
 			//NOOP
 		}
 	}
-
 }
