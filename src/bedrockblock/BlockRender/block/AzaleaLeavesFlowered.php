@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace bedrockblock\BlockRender\block;
 
-use pocketmine\block\Flowable;
+use pocketmine\block\Opaque;
 use pocketmine\data\runtime\{
 	RuntimeDataReader,
 	RuntimeDataWriter
 };
 
-class AzaleaLeavesFlowered extends Flowable{
+class AzaleaLeavesFlowered extends Opaque{
 	use BlockTypeIdTrait;
 
 	private bool $persistent_bit = false;
