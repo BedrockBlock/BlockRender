@@ -37,7 +37,7 @@ final class ItemManager{
 	 * @phpstan-template TItemType of item
 	 * @phpstan-param TItemType $item
 	 * @phpstan-param null|Closure(TItemType) : Writer $serializeCallback
-	 * @phpstan-param null|Closure(Reader) : TBlockType $deserializeCallback
+	 * @phpstan-param null|Closure(Reader) : TItemType $deserializeCallback
 	 */
 	public static function register(
 		Item $item,
