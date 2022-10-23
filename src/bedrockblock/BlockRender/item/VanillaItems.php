@@ -13,7 +13,7 @@ use pocketmine\item\{
 use pocketmine\utils\CloningRegistryTrait;
 
 /**
- * ItemBlock CHAIN()
+ * @method staric ItemBlock CHAIN()
  */
 final class VanillaItems{
 	use CloningRegistryTrait;
@@ -37,6 +37,6 @@ final class VanillaItems{
 	}
 
 	protected static function setup() : void{
-		//self::register("chain", new ItemBlock(VanillaBlocks::CHAIN()));
+		self::register('chain', new ItemBlock(VanillaBlocks::CHAIN()));
 	}
 }

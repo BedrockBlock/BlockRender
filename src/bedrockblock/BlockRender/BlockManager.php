@@ -176,7 +176,7 @@ final class BlockManager{
 			static fn(CaveVinesHeadWithBerries $block) : Writer => Writer::create(TypeNames::CAVE_VINES_HEAD_WITH_BERRIES)->writeInt(StateNames::GROWING_PLANT_AGE, $block->getAge()),
 			static fn(Reader $in) : CaveVinesHeadWithBerries => VanillaBlocks::CAVE_VINES_HEAD_WITH_BERRIES()->setAge($in->readInt(StateNames::GROWING_PLANT_AGE))
 		);
-		/*self::register(
+		self::register(
 			VanillaBlocks::CHAIN(), 
 			static fn(Chain $block) => Writer::create(TypeNames::CHAIN)
 				->writePillarAxis($block->getAxis()),
@@ -185,7 +185,7 @@ final class BlockManager{
 					->setAxis($in->readPillarAxis());
 			},
 			true
-		);*/
+		);
 		self::register(
 			VanillaBlocks::CAVE_VINES_BODY_WITH_BERRIES(),
 			static fn(CaveVinesBodyWithBerries $block) : Writer => Writer::create(TypeNames::CAVE_VINES_BODY_WITH_BERRIES)->writeInt(StateNames::GROWING_PLANT_AGE, $block->getAge()),
@@ -201,7 +201,7 @@ final class BlockManager{
 			static function(Reader $in) : ChainCommandBlock{
 				return VanillaBlocks::CHAIN_COMMAND_BLOCK()
 					->setFacing($in->readFacingDirection())
-					->setConditional(StateNames::CONDITIONAL_BIT, $in->readBool());
+					->setConditional($in->readBool(StateNames::CONDITIONAL_BIT));
 			}
 		);
 		self::register(
@@ -214,7 +214,7 @@ final class BlockManager{
 			static function(Reader $in) : CommandBlock{
 				return VanillaBlocks::COMMAND_BLOCK()
 					->setFacing($in->readFacingDirection())
-					->setConditional(StateNames::CONDITIONAL_BIT, $in->readBool());
+					->setConditional($in->readBool(StateNames::CONDITIONAL_BIT));
 			}
 		);
 		self::register(
@@ -263,7 +263,7 @@ final class BlockManager{
 			static function(Reader $in) : RepeatingCommandBlock{
 				return VanillaBlocks::REPEATING_COMMAND_BLOCK()
 					->setFacing($in->readFacingDirection())
-					->setConditional(StateNames::CONDITIONAL_BIT, $in->readBool());
+					->setConditional($in->readBool(StateNames::CONDITIONAL_BIT));
 			}
 		);
 		self::register(

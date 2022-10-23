@@ -30,7 +30,7 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static Campfire CAMPFIRE()
  * @method staric CaveVines CAVE_VINES()
  * @method static CaveVinesHeadWithBerries CAVE_VINES_HEAD_WITH_BERRIES()
- * Chain CHAIN()
+ * @method static Chain CHAIN()
  * @method static CaveVinesBodyWithBerries CAVE_VINES_BODY_WITH_BERRIES()
  * @method static ChainCommandBlock CHAIN_COMMAND_BLOCK()
  * @method static ClientRequestPlaceholderBlock CLIENT_REQUEST_PLACEHOLDER_BLOCK()
@@ -112,11 +112,11 @@ final class VanillaBlocks{
 			'Camera',
 			new Info(self::anyZero())
 		));
-		/*self::register('chain', new Chain(
+		self::register('chain', new Chain(
 			new BID(Chain::TYPE_ID()),
 			'Chain',
 			new Info(BreakInfo::pickaxe(5, ToolTier::WOOD(), 6))
-		));*/
+		));
 		self::register('client_request_placeholder_block', new ClientRequestPlaceholderBlock(
 			new BID(ClientRequestPlaceholderBlock::TYPE_ID()),
 			'Client Request Placeholder Block',

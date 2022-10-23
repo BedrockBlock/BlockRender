@@ -30,7 +30,7 @@ final class ItemManager{
 	}
 
 	private static function registerSimples() : void{
-		//self::register(VanillaItems::CHAIN());
+		self::register(VanillaItems::CHAIN());
 	}
 
 	/**
@@ -43,14 +43,19 @@ final class ItemManager{
 		Item $item,
 		?Closure $serializeCallback = null,
 		?Closure $deserializeCallback = null,
-		bool $notAddItemParser = false
+		bool $same = false
 	) : void{
 		$name = strtolower(str_replace(' ', '_', $item->getName()));
-		$namespace = 'minecraft:' . $name;
+		$namespace = 'minecraft:';
+		if($same){
+			$namespace .= $name;
+		}else{
+			$namespace .= 'item.' . $name;
+		}
 
 		GlobalItemDataHandlers::getSerializer()->map($item, $serializeCallback ?? static fn() => new Data($namespace));
 		GlobalItemDataHandlers::getDeserializer()->map($namespace, $deserializeCallback ?? static fn() => clone $item);
 
-		if(!$notAddItemParser) StringToItemParser::getInstance()->register($name, fn() => clone $item);
+		StringToItemParser::getInstance()->register($name, fn() => clone $item);
 	}
 }
