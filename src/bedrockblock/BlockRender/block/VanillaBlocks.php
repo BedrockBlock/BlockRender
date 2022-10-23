@@ -28,8 +28,14 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static BuddingAmethyst BUDDING_AMETHYST()
  * @method static Camera CAMERA()
  * @method static Campfire CAMPFIRE()
+ * @method staric CaveVines CAVE_VINES()
+ * @method static CaveVinesHeadWithBerries CAVE_VINES_HEAD_WITH_BERRIES()
  * Chain CHAIN()
+ * @method static CaveVinesBodyWithBerries CAVE_VINES_BODY_WITH_BERRIES()
+ * @method static ChainCommandBlock CHAIN_COMMAND_BLOCK()
+ * @method static ClientRequestPlaceholderBlock CLIENT_REQUEST_PLACEHOLDER_BLOCK()
  * @method static CrimsonFungus CRIMSON_FUNGUS()
+ * @method staric CommandBlock COMMAND_BLOCK()
  * @method static Deny DENY()
  * @method static Dispenser DISPENSER()
  * @method static Dropper DROPPER()
@@ -39,8 +45,10 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static PistonArmCollision PISTON_ARM_COLLISION()
  * @method static PowderSnow POWDER_SNOW()
  * @method static ReinforcedDeepslate REINFORCED_DEEPSLATE()
+ * @method static RepeatingCommandBlock REPEATING_COMMAND_BLOCK()
  * @method static SculkShrieker SCULK_SHRIEKER()
  * @method static SeaGrass SEAGRASS()
+ * @method static SoulCampfire SOUL_CAMPFIRE()
  * @method static WarpedFungus  WARPED_FUNGUS()
  */
 final class VanillaBlocks{
@@ -65,20 +73,19 @@ final class VanillaBlocks{
 	}
 
 	protected static function setup() : void{
+		self::registerAmethysts();
 		self::registerAzaleas();
+		self::registerCampfire();
+		self::registerCommandBlock();
 		self::registerFungus();
 		self::registerPiston();
 		self::registerWall();
+		self::registerVines();
 
 		self::register('allow', new Allow(
 			new BID(Allow::TYPE_ID()),
 			'Allow',
 			new Info(BreakInfo::indestructible())
-		));
-		self::register('amethyst_cluster', new AmethystCluster(
-			new BID(AmethystCluster::TYPE_ID()),
-			'Amethyst Cluster',
-			new Info(BreakInfo::pickaxe(1.5))
 		));
 		self::register('bee_nest', new BeeNest(
 			new BID(BeeNest::TYPE_ID()),
@@ -100,26 +107,21 @@ final class VanillaBlocks{
 			'Bubble Column',
 			new Info(self::anyZero())
 		));
-		self::register('budding_amethyst', new BuddingAmethyst(
-			new BID(BuddingAmethyst::TYPE_ID()),
-			'Budding Amethyst',
-			new Info(BreakInfo::pickaxe(1.5))
-		));
 		self::register('camera', new Camera(
 			new BID(Camera::TYPE_ID()),
 			'Camera',
 			new Info(self::anyZero())
-		));
-		self::register('campfire', new Campfire(
-			new BID(Campfire::TYPE_ID()),
-			'Campfire',
-			new Info(BreakInfo::axe(2.0))
 		));
 		/*self::register('chain', new Chain(
 			new BID(Chain::TYPE_ID()),
 			'Chain',
 			new Info(BreakInfo::pickaxe(5, ToolTier::WOOD(), 6))
 		));*/
+		self::register('client_request_placeholder_block', new ClientRequestPlaceholderBlock(
+			new BID(ClientRequestPlaceholderBlock::TYPE_ID()),
+			'Client Request Placeholder Block',
+			new Info(BreakInfo::indestructible())
+		));
 		self::register('deny', new Allow(
 			new BID(Deny::TYPE_ID()),
 			'Deny',
@@ -175,31 +177,17 @@ final class VanillaBlocks{
 		));
 	}
 
-	private static function registerPiston() : void{
-		$pistonInfo = new Info(BreakInfo::pickaxe(1.5));
-		self::register('piston', new Piston(
-			new BID(Piston::TYPE_ID()),
-			'Piston',
-			$pistonInfo
+	private static function registerAmethysts() : void{
+		$info = new Info(BreakInfo::pickaxe(1.5));
+		self::register('amethyst_cluster', new AmethystCluster(
+			new BID(AmethystCluster::TYPE_ID()),
+			'Amethyst Cluster',
+			$info
 		));
-		self::register('piston_arm_collision', new PistonArmCollision(
-			new BID(PistonArmCollision::TYPE_ID()),
-			'Piston Arm Collision',
-			$pistonInfo
-		));
-	}
-
-	private static function registerFungus() : void{
-		$fungusInfo = new Info(self::anyZero());
-		self::register('warped_fungus', new WarpedFungus(
-			new BID(WarpedFungus::TYPE_ID()),
-			'Warped Fungus',
-			$fungusInfo
-		));
-		self::register('crimson_fungus', new CrimsonFungus(
-			new BID(CrimsonFungus::TYPE_ID()),
-			'Crimson Fungus',
-			$fungusInfo
+		self::register('budding_amethyst', new BuddingAmethyst(
+			new BID(BuddingAmethyst::TYPE_ID()),
+			'Budding Amethyst',
+			$info
 		));
 	}
 
@@ -218,6 +206,86 @@ final class VanillaBlocks{
 		self::register('azalea_leaves_flowered', new AzaleaLeavesFlowered(
 			new BID(AzaleaLeavesFlowered::TYPE_ID()),
 			'Azalea Leaves Flowered',
+			$info
+		));
+	}
+
+	private static function registerCampfire() : void{
+		$info = new Info(BreakInfo::axe(2.0));
+		self::register('campfire', new Campfire(
+			new BID(Campfire::TYPE_ID()),
+			'Campfire',
+			$info
+		));
+		self::register('soul_campfire', new SoulCampfire(
+			new BID(SoulCampfire::TYPE_ID()),
+			'Soul Campfire',
+			$info
+		));
+	}
+
+	private static function registerCommandBlock() : void{
+		$info = new Info(BreakInfo::indestructible());
+		self::register('chain_command_block', new ChainCommandBlock(
+			new BID(ChainCommandBlock::TYPE_ID()),
+			'Chain Command Block',
+			$info
+		));
+		self::register('command_block', new CommandBlock(
+			new BID(CommandBlock::TYPE_ID()),
+			'Command Block',
+			$info
+		));
+		self::register('repeating_command_block', new RepeatingCommandBlock(
+			new BID(RepeatingCommandBlock::TYPE_ID()),
+			'Repeating Command Block',
+			$info
+		));
+	}
+
+	private static function registerFungus() : void{
+		$info = new Info(self::anyZero());
+		self::register('warped_fungus', new WarpedFungus(
+			new BID(WarpedFungus::TYPE_ID()),
+			'Warped Fungus',
+			$info
+		));
+		self::register('crimson_fungus', new CrimsonFungus(
+			new BID(CrimsonFungus::TYPE_ID()),
+			'Crimson Fungus',
+			$info
+		));
+	}
+
+	private static function registerPiston() : void{
+		$info = new Info(BreakInfo::pickaxe(1.5));
+		self::register('piston', new Piston(
+			new BID(Piston::TYPE_ID()),
+			'Piston',
+			$info
+		));
+		self::register('piston_arm_collision', new PistonArmCollision(
+			new BID(PistonArmCollision::TYPE_ID()),
+			'Piston Arm Collision',
+			$info
+		));
+	}
+
+	private static function registerVines() : void{
+		$info = new Info(self::anyZero());
+		self::register('cave_vines', new CaveVines(
+			new BID(CaveVines::TYPE_ID()),
+			'Cave Vines',
+			$info
+		));
+		self::register('cave_vines_head_with_berries', new CaveVinesHeadWithBerries(
+			new BID(CaveVinesHeadWithBerries::TYPE_ID()),
+			'Cave Vines Head With Berries',
+			$info
+		));
+		self::register('cave_vines_body_with_berries', new CaveVinesBodyWithBerries(
+			new BID(CaveVinesBodyWithBerries::TYPE_ID()),
+			'Cave Vines Body With Berries',
 			$info
 		));
 	}

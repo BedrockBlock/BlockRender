@@ -15,13 +15,20 @@ use bedrockblock\BlockRender\block\{
 	BorderBlock,
 	BubbleColumn,
 	Campfire,
+	CaveVines,
+	CaveVinesHeadWithBerries,
 	Chain,
+	CaveVinesBodyWithBerries,
+	ChainCommandBlock,
+	CommandBlock,
 	Dispenser,
 	Dropper,
 	Piston,
 	PistonArmCollision,
+	RepeatingCommandBlock,
 	SculkShrieker,
-	SeaGrass
+	SeaGrass,
+	SoulCampfire
 };
 
 use pocketmine\block\{
@@ -159,6 +166,16 @@ final class BlockManager{
 					->setExtinguished($in->readBool(StateNames::EXTINGUISHED));
 			}
 		);
+		self::register(
+			VanillaBlocks::CAVE_VINES(),
+			static fn(CaveVines $block) : Writer => Writer::create(TypeNames::CAVE_VINES)->writeInt(StateNames::GROWING_PLANT_AGE, $block->getAge()),
+			static fn(Reader $in) : CaveVines => VanillaBlocks::CAVE_VINES()->setAge($in->readInt(StateNames::GROWING_PLANT_AGE))
+		);
+		self::register(
+			VanillaBlocks::CAVE_VINES_HEAD_WITH_BERRIES(),
+			static fn(CaveVinesHeadWithBerries $block) : Writer => Writer::create(TypeNames::CAVE_VINES_HEAD_WITH_BERRIES)->writeInt(StateNames::GROWING_PLANT_AGE, $block->getAge()),
+			static fn(Reader $in) : CaveVinesHeadWithBerries => VanillaBlocks::CAVE_VINES_HEAD_WITH_BERRIES()->setAge($in->readInt(StateNames::GROWING_PLANT_AGE))
+		);
 		/*self::register(
 			VanillaBlocks::CHAIN(), 
 			static fn(Chain $block) => Writer::create(TypeNames::CHAIN)
@@ -169,6 +186,37 @@ final class BlockManager{
 			},
 			true
 		);*/
+		self::register(
+			VanillaBlocks::CAVE_VINES_BODY_WITH_BERRIES(),
+			static fn(CaveVinesBodyWithBerries $block) : Writer => Writer::create(TypeNames::CAVE_VINES_BODY_WITH_BERRIES)->writeInt(StateNames::GROWING_PLANT_AGE, $block->getAge()),
+			static fn(Reader $in) : CaveVinesBodyWithBerries => VanillaBlocks::CAVE_VINES_BODY_WITH_BERRIES()->setAge($in->readInt(StateNames::GROWING_PLANT_AGE))
+		);
+		self::register(
+			VanillaBlocks::CHAIN_COMMAND_BLOCK(),
+			static function(ChainCommandBlock $block) : Writer{
+				return Writer::create(TypeNames::CHAIN_COMMAND_BLOCK)
+					->writeFacingDirection($block->getFacing())
+					->writeBool(StateNames::CONDITIONAL_BIT, $block->isConditional());
+			},
+			static function(Reader $in) : ChainCommandBlock{
+				return VanillaBlocks::CHAIN_COMMAND_BLOCK()
+					->setFacing($in->readFacingDirection())
+					->setConditional(StateNames::CONDITIONAL_BIT, $in->readBool());
+			}
+		);
+		self::register(
+			VanillaBlocks::COMMAND_BLOCK(),
+			static function(CommandBlock $block) : Writer{
+				return Writer::create(TypeNames::COMMAND_BLOCK)
+					->writeFacingDirection($block->getFacing())
+					->writeBool(StateNames::CONDITIONAL_BIT, $block->isConditional());
+			},
+			static function(Reader $in) : CommandBlock{
+				return VanillaBlocks::COMMAND_BLOCK()
+					->setFacing($in->readFacingDirection())
+					->setConditional(StateNames::CONDITIONAL_BIT, $in->readBool());
+			}
+		);
 		self::register(
 			VanillaBlocks::DISPENSER(),
 			static function(Dispenser $block) : Writer{
@@ -206,6 +254,19 @@ final class BlockManager{
 			static fn(Reader $in) : PistonArmCollision => VanillaBlocks::PISTON_ARM_COLLISION()->setFacing($in->readFacingDirection())
 		);
 		self::register(
+			VanillaBlocks::REPEATING_COMMAND_BLOCK(),
+			static function(RepeatingCommandBlock $block) : Writer{
+				return Writer::create(TypeNames::REPEATING_COMMAND_BLOCK)
+					->writeFacingDirection($block->getFacing())
+					->writeBool(StateNames::CONDITIONAL_BIT, $block->isConditional());
+			},
+			static function(Reader $in) : RepeatingCommandBlock{
+				return VanillaBlocks::REPEATING_COMMAND_BLOCK()
+					->setFacing($in->readFacingDirection())
+					->setConditional(StateNames::CONDITIONAL_BIT, $in->readBool());
+			}
+		);
+		self::register(
 			VanillaBlocks::SCULK_SHRIEKER(),
 			static function(SculkShrieker $block) : Writer{
 				return Writer::create(TypeNames::SCULK_SHRIEKER)
@@ -223,6 +284,19 @@ final class BlockManager{
 			static fn(SeaGrass $block) : Writer => Writer::create(TypeNames::SEAGRASS)->writeString(StateNames::SEA_GRASS_TYPE, $block->getType()),
 			static fn(Reader $in) : SeaGrass => VanillaBlocks::SEAGRASS()->setType($in->readString(StateNames::SEA_GRASS_TYPE))
 		);
+		self::register(
+			VanillaBlocks::SOUL_CAMPFIRE(),
+			static function(SoulCampfire $block) : Writer{
+				return Writer::create(TypeNames::SOUL_CAMPFIRE)
+					->writeLegacyHorizontalFacing($block->getFacing())
+					->writeBool(StateNames::EXTINGUISHED, $block->isExtinguished());
+			},
+			static function(Reader $in) : SoulCampfire{
+				return VanillaBlocks::SOUL_CAMPFIRE()
+					->setFacing($in->readLegacyHorizontalFacing())
+					->setExtinguished($in->readBool(StateNames::EXTINGUISHED));
+			}
+		);
 	}
 
 	private static function registerSimples() : void{
@@ -230,6 +304,7 @@ final class BlockManager{
 		self::register(VanillaBlocks::AZALEA());
 		self::register(VanillaBlocks::BUDDING_AMETHYST());
 		self::register(VanillaBlocks::CAMERA());
+		self::register(VanillaBlocks::CLIENT_REQUEST_PLACEHOLDER_BLOCK());
 		self::register(VanillaBlocks::CRIMSON_FUNGUS());
 		self::register(VanillaBlocks::DENY());
 		self::register(VanillaBlocks::END_GATEWAY());
