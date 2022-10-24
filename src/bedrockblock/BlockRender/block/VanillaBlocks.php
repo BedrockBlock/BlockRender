@@ -34,8 +34,12 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static CaveVinesBodyWithBerries CAVE_VINES_BODY_WITH_BERRIES()
  * @method static ChainCommandBlock CHAIN_COMMAND_BLOCK()
  * @method static ClientRequestPlaceholderBlock CLIENT_REQUEST_PLACEHOLDER_BLOCK()
- * @method static CrimsonFungus CRIMSON_FUNGUS()
  * @method static CommandBlock COMMAND_BLOCK()
+ * @method static Composter COMPOSTER()
+ * @method static Conduit CONDUIT()
+ * @method static CrimsonFungus CRIMSON_FUNGUS()
+ * @method static CrimsonNylium CRIMSON_NYLIUM()
+ * @method static CrimsonRoots CRIMSON_ROOTS()
  * @method static Deny DENY()
  * @method static Dispenser DISPENSER()
  * @method static Dropper DROPPER()
@@ -54,6 +58,8 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static SeaGrass SEAGRASS()
  * @method static SoulCampfire SOUL_CAMPFIRE()
  * @method static WarpedFungus WARPED_FUNGUS()
+ * @method static WarpedNyliuk WARPED_NYLIUM()
+ * @method static WarpedRoots WARPED_ROOTS()
  */
 final class VanillaBlocks{
 	use CloningRegistryTrait;
@@ -82,8 +88,11 @@ final class VanillaBlocks{
 		self::registerCampfire();
 		self::registerCommandBlock();
 		self::registerFungus();
+		self::registerNylium();
 		self::registerPiston();
+		self::registerRoots();
 		self::registerWall();
+		self::registerSculk();
 		self::registerVines();
 
 		self::register('allow', new Allow(
@@ -126,6 +135,16 @@ final class VanillaBlocks{
 			'Client Request Placeholder Block',
 			new Info(BreakInfo::indestructible())
 		));
+		self::register('composter', new Composter(
+			new BID(Composter::TYPE_ID()),
+			'Composter',
+			new Info(BreakInfo::axe(0.6))
+		));
+		self::register('conduit', new Conduit(
+			new BID(Conduit::TYPE_ID()),
+			'Conduit',
+			new Info(BreakInfo::pickaxe(3))
+		));
 		self::register('deny', new Allow(
 			new BID(Deny::TYPE_ID()),
 			'Deny',
@@ -165,26 +184,6 @@ final class VanillaBlocks{
 			new BID(Kelp::TYPE_ID()),
 			'Kelp',
 			new Info(BreakInfo::instant())
-		));
-		self::register('sculk', new Sculk(
-			new BID(Sculk::TYPE_ID()),
-			'Sculk',
-			new Info(self::blockToolHoe(3.0))
-		));
-		self::register('sculk_catalyst', new SculkCatalyst(
-			new BID(SculkCatalyst::TYPE_ID()),
-			'Sculk Catalyst',
-			new Info(self::blockToolHoe(3.0))
-		));
-		self::register('sculk_sensor', new SculkSensor(
-			new BID(SculkSensor::TYPE_ID()),
-			'Sculk Sensor',
-			new Info(self::blockToolHoe(3.0))
-		));
-		self::register('sculk_shrieker', new SculkShrieker(
-			new BID(SculkShrieker::TYPE_ID()),
-			'Sculk Shrieker',
-			new Info(self::blockToolHoe(3.0))
 		));
 		self::register('seagrass', new SeaGrass(
 			new BID(SeaGrass::TYPE_ID()),
@@ -281,6 +280,20 @@ final class VanillaBlocks{
 		));
 	}
 
+	private static function registerNylium() : void{
+		$info = new Info(BreakInfo::pickaxe(0.4));
+		self::register('crimson_nylium', new CrimsonNylium(
+			new BID(CrimsonNylium::TYPE_ID()),
+			'Crimson Nylium',
+			$info
+		));
+		self::register('warped_nylium', new WarpedNylium(
+			new BID(WarpedNylium::TYPE_ID()),
+			'Warped Nylium',
+			$info
+		));
+	}
+
 	private static function registerPiston() : void{
 		$info = new Info(BreakInfo::pickaxe(1.5));
 		self::register('piston', new Piston(
@@ -291,6 +304,44 @@ final class VanillaBlocks{
 		self::register('piston_arm_collision', new PistonArmCollision(
 			new BID(PistonArmCollision::TYPE_ID()),
 			'Piston Arm Collision',
+			$info
+		));
+	}
+
+	private static function registerRoots() : void{
+		$info = new Info(self::anyZero());
+		self::register('crimson_roots', new CrimsonRoots(
+			new BID(CrimsonRoots::TYPE_ID()),
+			'Crimson Roots',
+			$info
+		));
+		self::register('warped_roots', new WarpedRoots(
+			new BID(WarpedRoots::TYPE_ID()),
+			'Warped Roots',
+			$info
+		));
+	}
+
+	private static function registerSculk() : void{
+		$info = new Info(self::blockToolHoe(3.0));
+		self::register('sculk', new Sculk(
+			new BID(Sculk::TYPE_ID()),
+			'Sculk',
+			$info
+		));
+		self::register('sculk_catalyst', new SculkCatalyst(
+			new BID(SculkCatalyst::TYPE_ID()),
+			'Sculk Catalyst',
+			$info
+		));
+		self::register('sculk_sensor', new SculkSensor(
+			new BID(SculkSensor::TYPE_ID()),
+			'Sculk Sensor',
+			$info
+		));
+		self::register('sculk_shrieker', new SculkShrieker(
+			new BID(SculkShrieker::TYPE_ID()),
+			'Sculk Shrieker',
 			$info
 		));
 	}
