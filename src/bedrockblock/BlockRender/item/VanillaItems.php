@@ -13,7 +13,10 @@ use pocketmine\item\{
 use pocketmine\utils\CloningRegistryTrait;
 
 /**
+ * @method staric ItemBlock CAMPFIRE()
  * @method staric ItemBlock CHAIN()
+ * @method staric ItemBlock KELP()
+ * @method staric ItemBlock SOUL_CAMPFIRE()
  */
 final class VanillaItems{
 	use CloningRegistryTrait;
@@ -37,6 +40,9 @@ final class VanillaItems{
 	}
 
 	protected static function setup() : void{
+		self::register('campfire', new ItemBlock(VanillaBlocks::CAMPFIRE()));
 		self::register('chain', new ItemBlock(VanillaBlocks::CHAIN()));
+		self::register('kelp', new ItemBlock(VanillaBlocks::CHAIN()));
+		self::register('soul_campfire', new ItemBlock(VanillaBlocks::SOUL_CAMPFIRE()));
 	}
 }

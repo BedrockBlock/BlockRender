@@ -26,6 +26,9 @@ use bedrockblock\BlockRender\block\{
 	Piston,
 	PistonArmCollision,
 	RepeatingCommandBlock,
+	Kelp,
+	SculkCatalyst,
+	SculkSensor,
 	SculkShrieker,
 	SeaGrass,
 	SoulCampfire
@@ -164,7 +167,8 @@ final class BlockManager{
 				return VanillaBlocks::CAMPFIRE()
 					->setFacing($in->readLegacyHorizontalFacing())
 					->setExtinguished($in->readBool(StateNames::EXTINGUISHED));
-			}
+			},
+			false
 		);
 		self::register(
 			VanillaBlocks::CAVE_VINES(),
@@ -177,6 +181,11 @@ final class BlockManager{
 			static fn(Reader $in) : CaveVinesHeadWithBerries => VanillaBlocks::CAVE_VINES_HEAD_WITH_BERRIES()->setAge($in->readInt(StateNames::GROWING_PLANT_AGE))
 		);
 		self::register(
+			VanillaBlocks::CAVE_VINES_BODY_WITH_BERRIES(),
+			static fn(CaveVinesBodyWithBerries $block) : Writer => Writer::create(TypeNames::CAVE_VINES_BODY_WITH_BERRIES)->writeInt(StateNames::GROWING_PLANT_AGE, $block->getAge()),
+			static fn(Reader $in) : CaveVinesBodyWithBerries => VanillaBlocks::CAVE_VINES_BODY_WITH_BERRIES()->setAge($in->readInt(StateNames::GROWING_PLANT_AGE))
+		);
+		self::register(
 			VanillaBlocks::CHAIN(), 
 			static fn(Chain $block) => Writer::create(TypeNames::CHAIN)
 				->writePillarAxis($block->getAxis()),
@@ -184,12 +193,7 @@ final class BlockManager{
 				return VanillaBlocks::CHAIN()
 					->setAxis($in->readPillarAxis());
 			},
-			true
-		);
-		self::register(
-			VanillaBlocks::CAVE_VINES_BODY_WITH_BERRIES(),
-			static fn(CaveVinesBodyWithBerries $block) : Writer => Writer::create(TypeNames::CAVE_VINES_BODY_WITH_BERRIES)->writeInt(StateNames::GROWING_PLANT_AGE, $block->getAge()),
-			static fn(Reader $in) : CaveVinesBodyWithBerries => VanillaBlocks::CAVE_VINES_BODY_WITH_BERRIES()->setAge($in->readInt(StateNames::GROWING_PLANT_AGE))
+			false
 		);
 		self::register(
 			VanillaBlocks::CHAIN_COMMAND_BLOCK(),
@@ -267,6 +271,40 @@ final class BlockManager{
 			}
 		);
 		self::register(
+			VanillaBlocks::KELP(),
+			static function(Kelp $block) : Writer{
+				return Writer::create(TypeNames::KELP)
+					->writeInt(StateNames::KELP_AGE, $block->getKelpAge());
+			},
+			static function(Reader $in) : Kelp{
+				return VanillaBlocks::KELP()
+					->setKelpAge($in->readInt(StateNames::KELP_AGE));
+			},
+			false
+		);
+		self::register(
+			VanillaBlocks::SCULK_CATALYST(),
+			static function(SculkCatalyst $block) : Writer{
+				return Writer::create(TypeNames::SCULK_CATALYST)
+					->writeBool(StateNames::BLOOM, $block->isBloom());
+			},
+			static function(Reader $in) : SculkCatalyst{
+				return VanillaBlocks::SCULK_CATALYST()
+					->setBloom($in->readBool(StateNames::BLOOM));
+			}
+		);
+		self::register(
+			VanillaBlocks::SCULK_SENSOR(),
+			static function(SculkSensor $block) : Writer{
+				return Writer::create(TypeNames::SCULK_SENSOR)
+					->writeBool(StateNames::POWERED_BIT, $block->isPoweredBit());
+			},
+			static function(Reader $in) : SculkSensor{
+				return VanillaBlocks::SCULK_SENSOR()
+					->setPoweredBit($in->readBool(StateNames::POWERED_BIT));
+			}
+		);
+		self::register(
 			VanillaBlocks::SCULK_SHRIEKER(),
 			static function(SculkShrieker $block) : Writer{
 				return Writer::create(TypeNames::SCULK_SHRIEKER)
@@ -295,7 +333,8 @@ final class BlockManager{
 				return VanillaBlocks::SOUL_CAMPFIRE()
 					->setFacing($in->readLegacyHorizontalFacing())
 					->setExtinguished($in->readBool(StateNames::EXTINGUISHED));
-			}
+			},
+			false
 		);
 	}
 
@@ -311,6 +350,7 @@ final class BlockManager{
 		self::register(VanillaBlocks::MOSS_CARPET());
 		self::register(VanillaBlocks::POWDER_SNOW());
 		self::register(VanillaBlocks::REINFORCED_DEEPSLATE());
+		self::register(VanillaBlocks::SCULK());
 		self::register(VanillaBlocks::WARPED_FUNGUS());
 	}
 
@@ -324,7 +364,7 @@ final class BlockManager{
 		Block $block,
 		?Closure $serializeCallback = null,
 		?Closure $deserializeCallback = null,
-		bool $notAddItemParser = false
+		bool $addItemParser = true
 	) : void{
 		$name = strtolower(str_replace(' ', '_', $block->getName()));
 		$namespace = 'minecraft:' . $name;
@@ -332,7 +372,7 @@ final class BlockManager{
 		GlobalBlockStateHandlers::getSerializer()->map($block, $serializeCallback ?? static fn() : Writer => Writer::create($namespace));
 		GlobalBlockStateHandlers::getDeserializer()->map($namespace, $deserializeCallback ?? static fn() : Block => clone $block);
 
-		if(!$notAddItemParser) StringToItemParser::getInstance()->registerBlock($name, fn() => clone $block);
+		if($addItemParser) StringToItemParser::getInstance()->registerBlock($name, fn() => clone $block);
 
 		try{
 			BlockFactory::getInstance()->register($block);

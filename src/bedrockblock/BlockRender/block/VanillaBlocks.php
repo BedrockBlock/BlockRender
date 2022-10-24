@@ -46,10 +46,14 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static PowderSnow POWDER_SNOW()
  * @method static ReinforcedDeepslate REINFORCED_DEEPSLATE()
  * @method static RepeatingCommandBlock REPEATING_COMMAND_BLOCK()
+ * @method static Kelp KELP()
+ * @method static Sculk SCULK()
+ * @method static SculkCatalyst SCULK_CATALYST()
+ * @method static SculkSensor SCULK_SENSOR()
  * @method static SculkShrieker SCULK_SHRIEKER()
  * @method static SeaGrass SEAGRASS()
  * @method static SoulCampfire SOUL_CAMPFIRE()
- * @method static WarpedFungus  WARPED_FUNGUS()
+ * @method static WarpedFungus WARPED_FUNGUS()
  */
 final class VanillaBlocks{
 	use CloningRegistryTrait;
@@ -156,6 +160,26 @@ final class VanillaBlocks{
 			new BID(ReinforcedDeepslate::TYPE_ID()),
 			'Reinforced Deepslate',
 			new Info(new BreakInfo(55))
+		));
+		self::register('kelp', new Kelp(
+			new BID(Kelp::TYPE_ID()),
+			'Kelp',
+			new Info(BreakInfo::instant())
+		));
+		self::register('sculk', new Sculk(
+			new BID(Sculk::TYPE_ID()),
+			'Sculk',
+			new Info(self::blockToolHoe(3.0))
+		));
+		self::register('sculk_catalyst', new SculkCatalyst(
+			new BID(SculkCatalyst::TYPE_ID()),
+			'Sculk Catalyst',
+			new Info(self::blockToolHoe(3.0))
+		));
+		self::register('sculk_sensor', new SculkSensor(
+			new BID(SculkSensor::TYPE_ID()),
+			'Sculk Sensor',
+			new Info(self::blockToolHoe(3.0))
 		));
 		self::register('sculk_shrieker', new SculkShrieker(
 			new BID(SculkShrieker::TYPE_ID()),
