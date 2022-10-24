@@ -21,6 +21,7 @@ use bedrockblock\BlockRender\block\{
 	CaveVinesBodyWithBerries,
 	ChainCommandBlock,
 	CommandBlock,
+	Composter,
 	Dispenser,
 	Dropper,
 	Piston,
@@ -222,6 +223,11 @@ final class BlockManager{
 			}
 		);
 		self::register(
+			VanillaBlocks::COMPOSTER(),
+			static fn(Composter $block) : Writer => Writer::create(TypeNames::COMPOSTER)->writeInt(StateNames::COMPOSTER_FILL_LEVEL, $block->getFillLevel()),
+			static fn(Reader $in) : Composter => VanillaBlocks::COMPOSTER()->setFillLevel($in->readInt(StateNames::COMPOSTER_FILL_LEVEL))
+		);
+		self::register(
 			VanillaBlocks::DISPENSER(),
 			static function(Dispenser $block) : Writer{
 				return Writer::create(TypeNames::DISPENSER)
@@ -344,14 +350,23 @@ final class BlockManager{
 		self::register(VanillaBlocks::BUDDING_AMETHYST());
 		self::register(VanillaBlocks::CAMERA());
 		self::register(VanillaBlocks::CLIENT_REQUEST_PLACEHOLDER_BLOCK());
+		self::register(VanillaBlocks::CONDUIT());
 		self::register(VanillaBlocks::CRIMSON_FUNGUS());
+		self::register(VanillaBlocks::CRIMSON_NYLIUM());
+		self::register(VanillaBlocks::CRIMSON_ROOTS());
 		self::register(VanillaBlocks::DENY());
+		self::register(VanillaBlocks::DRIPSTONE_BLOCK());
 		self::register(VanillaBlocks::END_GATEWAY());
+		self::register(VanillaBlocks::END_PORTAL());
+		self::register(VanillaBlocks::FLOWERING_AZALEA());
+		self::register(VanillaBlocks::FROG_SPAWN());
 		self::register(VanillaBlocks::MOSS_CARPET());
 		self::register(VanillaBlocks::POWDER_SNOW());
 		self::register(VanillaBlocks::REINFORCED_DEEPSLATE());
 		self::register(VanillaBlocks::SCULK());
 		self::register(VanillaBlocks::WARPED_FUNGUS());
+		self::register(VanillaBlocks::WARPED_NYLIUM());
+		self::register(VanillaBlocks::WARPED_ROOTS());
 	}
 
 	/**
