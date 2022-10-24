@@ -355,7 +355,11 @@ final class BlockManager{
 		self::register(VanillaBlocks::CRIMSON_NYLIUM());
 		self::register(VanillaBlocks::CRIMSON_ROOTS());
 		self::register(VanillaBlocks::DENY());
+		self::register(VanillaBlocks::DRIPSTONE_BLOCK());
 		self::register(VanillaBlocks::END_GATEWAY());
+		self::register(VanillaBlocks::END_PORTAL());
+		self::register(VanillaBlocks::FLOWERING_AZALEA());
+		self::register(VanillaBlocks::FROG_SPAWN());
 		self::register(VanillaBlocks::MOSS_CARPET());
 		self::register(VanillaBlocks::POWDER_SNOW());
 		self::register(VanillaBlocks::REINFORCED_DEEPSLATE());

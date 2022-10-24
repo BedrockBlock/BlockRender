@@ -6,7 +6,10 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\{Block, Transparent};
 use pocketmine\block\utils\PillarRotationTrait;
-use pocketmine\data\runtime\{RuntimeDataReader, RuntimeDataWriter};
+use pocketmine\data\runtime\{
+	RuntimeDataReader,
+	RuntimeDataWriter
+};
 
 class Chain extends Transparent{
 	use BlockTypeIdTrait;

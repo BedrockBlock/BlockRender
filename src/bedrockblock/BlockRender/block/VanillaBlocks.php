@@ -42,8 +42,12 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static CrimsonRoots CRIMSON_ROOTS()
  * @method static Deny DENY()
  * @method static Dispenser DISPENSER()
+ * @method static DripstoneBlock DRIPSTONE_BLOCK()
  * @method static Dropper DROPPER()
  * @method static EndGateway END_GATEWAY()
+ * @method static EndPortal END_PORTAL()
+ * @method static FloweringAzalea FLOWERING_AZALEA()
+ * @method staric FrogSpawn FROG_SPAWN()
  * @method static MossCarpet MOSS_CARPET()
  * @method static Piston PISTON()
  * @method static PistonArmCollision PISTON_ARM_COLLISION()
@@ -155,6 +159,11 @@ final class VanillaBlocks{
 			'Dispenser',
 			new Info(BreakInfo::pickaxe(3.5))
 		));
+		self::register('dripstone_block', new DripstoneBlock(
+			new BID(DripstoneBlock::TYPE_ID()),
+			'Dripstone Block',
+			new Info(BreakInfo::pickaxe(1.5))
+		));
 		self::register('dropper', new Dropper(
 			new BID(Dropper::TYPE_ID()),
 			'Dropper',
@@ -164,6 +173,16 @@ final class VanillaBlocks{
 			new BID(EndGateway::TYPE_ID()),
 			'End Gateway',
 			new Info(BreakInfo::indestructible())
+		));
+		self::register('end_portal', new EndPortal(
+			new BID(EndPortal::TYPE_ID()),
+			'End Portal',
+			new Info(BreakInfo::indestructible())
+		));
+		self::register('frog_spawn', new FrogSpawn(
+			new BID(FrogSpawn::TYPE_ID()),
+			'Frog Spawn',
+			new Info(self::anyZero())
 		));
 		self::register('moss_carpet', new MossCarpet(
 			new BID(MossCarpet::TYPE_ID()),
@@ -229,6 +248,11 @@ final class VanillaBlocks{
 		self::register('azalea_leaves_flowered', new AzaleaLeavesFlowered(
 			new BID(AzaleaLeavesFlowered::TYPE_ID()),
 			'Azalea Leaves Flowered',
+			$info
+		));
+		self::register('flowering_azalea', new FloweringAzalea(
+			new BID(FloweringAzalea::TYPE_ID()),
+			'Flowering Azalea',
 			$info
 		));
 	}
