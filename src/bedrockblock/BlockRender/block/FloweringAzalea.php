@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Opaque;
 
-class FloweringAzalea extends Opaque{
-	use BlockTypeIdTrait;
+class FloweringAzalea extends Opaque implements IBlockState{
+	use NoneStateTrait;
 }

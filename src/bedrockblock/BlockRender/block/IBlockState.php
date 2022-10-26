@@ -7,17 +7,15 @@ namespace bedrockblock\BlockRender\block;
 use pocketmine\data\bedrock\block\convert\{
 	BlockStateReader,
 	BlockStateWriter
-}
+};
 use pocketmine\block\Block;
 
-interface RenderBlock{
+interface IBlockState{
 
 	public static function TYPE_ID() : int;
 
-	public static function BLOCK() : Block;
+	public function encode() : ?BlockStateWriter;
 
-	public function encode(Block $block) : BlockStateWriter;
-
-	public static function decode(BlockStateReader $reader) : Block;
+	public function decode(BlockStateReader $reader) : ?Block;
 
 }

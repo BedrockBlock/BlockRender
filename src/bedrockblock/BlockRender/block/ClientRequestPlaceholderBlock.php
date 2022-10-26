@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Flowable;
 
-class ClientRequestPlaceholderBlock extends Flowable{
-	use BlockTypeIdTrait;
+class ClientRequestPlaceholderBlock extends Flowable implements IBlockState{
+	use NoneStateTrait;
 }

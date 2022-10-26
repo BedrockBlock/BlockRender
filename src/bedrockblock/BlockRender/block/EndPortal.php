@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Transparent;
 
-class EndPortal extends Transparent{
-	use BlockTypeIdTrait;
+class EndPortal extends Transparent implements IBlockState{
+	use NoneStateTrait;
 }

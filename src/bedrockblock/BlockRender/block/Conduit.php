@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Flowable;
 
-class Conduit extends Flowable{
-	use BlockTypeIdTrait;
+class Conduit extends Flowable implements IBlockState{
+	use NoneStateTrait;
 }

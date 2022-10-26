@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Flowable;
 
-class WarpedRoots extends Flowable{
-	use BlockTypeIdTrait;
+class WarpedRoots extends Flowable implements IBlockState{
+	use NoneStateTrait;
 }

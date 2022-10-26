@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Flowable;
 
-class FrogSpawn extends Flowable{
-	use BlockTypeIdTrait;
+class FrogSpawn extends Flowable implements IBlockState{
+	use NoneStateTrait;
 }

@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Opaque;
 
-class Sculk extends Opaque{
-	use BlockTypeIdTrait;
+class Sculk extends Opaque implements IBlockState{
+	use NoneStateTrait;
 }

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace bedrockblock\BlockRender;
 
-use bedrockblock\BlockRender\block\VanillaBlocks;
+use bedrockblock\BlockRender\block\{
+	IBlockState,
+	VanillaBlocks
+};
 use bedrockblock\BlockRender\block\{
 	AmethystCluster,
 	AzaleaLeaves,
@@ -38,12 +41,6 @@ use bedrockblock\BlockRender\block\{
 use pocketmine\block\{
 	Block,
 	BlockFactory,
-	VanillaBlocks as Blocks,
-	BlockTypeInfo as Info,
-	BlockBreakInfo as BreakInfo,
-	BlockIdentifier as BID,
-	BlockToolType as ToolType,
-	Wall
 };
 use pocketmine\data\bedrock\block\{
 	BlockStateNames as StateNames,
@@ -53,8 +50,6 @@ use pocketmine\data\bedrock\block\{
 use pocketmine\data\bedrock\block\convert\{
 	BlockStateReader as Reader,
 	BlockStateWriter as Writer,
-	BlockObjectToStateSerializer,
-	BlockStateToObjectDeserializer,
 	BlockStateSerializerHelper as SerializerHelper,
 	BlockStateDeserializerHelper as DeserializerHelper
 };
@@ -74,7 +69,7 @@ final class BlockManager{
 
 	public static function init() : void{
 		self::registerSimples();
-
+/*
 		self::register(
 			VanillaBlocks::AMETHYST_CLUSTER(),
 			static fn(AmethystCluster $block) : Writer => Writer::create(TypeNames::AMETHYST_CLUSTER)->writeFacingDirection($block->getFacing()),
@@ -341,7 +336,7 @@ final class BlockManager{
 					->setExtinguished($in->readBool(StateNames::EXTINGUISHED));
 			},
 			false
-		);
+		);*/
 	}
 
 	private static function registerSimples() : void{
@@ -369,30 +364,21 @@ final class BlockManager{
 		self::register(VanillaBlocks::WARPED_ROOTS());
 	}
 
-	/**
-	 * @phpstan-template TBlockType of Block
-	 * @phpstan-param TBlockType $block
-	 * @phpstan-param null|Closure(TBlockType) : Writer $serializeCallback
-	 * @phpstan-param null|Closure(Reader) : TBlockType $deserializeCallback
-	 */
-	public static function register(
-		Block $block,
-		?Closure $serializeCallback = null,
-		?Closure $deserializeCallback = null,
-		bool $addItemParser = true
-	) : void{
+	public static function register(Block&IBlockState $block, bool $addItemParser = true) : void{
 		$name = strtolower(str_replace(' ', '_', $block->getName()));
 		$namespace = 'minecraft:' . $name;
 
-		GlobalBlockStateHandlers::getSerializer()->map($block, $serializeCallback ?? static fn() : Writer => Writer::create($namespace));
-		GlobalBlockStateHandlers::getDeserializer()->map($namespace, $deserializeCallback ?? static fn() : Block => clone $block);
+		GlobalBlockStateHandlers::getSerializer()->map($block, static function(Block $block) use($namespace): Writer{
+			return $block->encode() ?? Writer::create($namespace);
+		});
+		GlobalBlockStateHandlers::getDeserializer()->map($namespace, static function(Reader $reader) use($block): Block{
+			return $block->decode($reader) ?? clone $block;
+		});
 
-		if($addItemParser) StringToItemParser::getInstance()->registerBlock($name, fn() => clone $block);
-
-		try{
-			BlockFactory::getInstance()->register($block);
-		}catch(\InvalidArgumentException $e){
-			//NOOP
+		if($addItemParser){
+			StringToItemParser::getInstance()->registerBlock($name, fn() => clone $block);
 		}
+
+		BlockFactory::getInstance()->register($block);
 	}
 }

@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Flowable;
 
-class CrimsonFungus extends Flowable{
-	use BlockTypeIdTrait;
+class CrimsonFungus extends Flowable implements IBlockState{
+	use NoneStateTrait;
 }

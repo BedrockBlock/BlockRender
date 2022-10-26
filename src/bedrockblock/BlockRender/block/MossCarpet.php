@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Flowable;
 
-class MossCarpet extends Flowable{
-	use BlockTypeIdTrait;
+class MossCarpet extends Flowable implements IBlockState{
+	use NoneStateTrait;
 }

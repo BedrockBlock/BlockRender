@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Flowable;
 
-class PowderSnow extends Flowable{
-	use BlockTypeIdTrait;
+class PowderSnow extends Flowable implements IBlockState{
+	use NoneStateTrait;
 }

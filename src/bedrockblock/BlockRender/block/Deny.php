@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Opaque;
 
-class Deny extends Opaque{
-	use BlockTypeIdTrait;
+class Deny extends Opaque implements IBlockState{
+	use NoneStateTrait;
 }
