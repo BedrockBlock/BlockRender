@@ -59,8 +59,9 @@ final class ItemManager{
 
 		GlobalItemDataHandlers::getSerializer()->map($item, $serializeCallback ?? static fn() => new Data($namespace));
 		GlobalItemDataHandlers::getDeserializer()->map($namespace, $deserializeCallback ?? static fn() => clone $item);
-
-		StringToItemParser::getInstance()->register($name, fn() => clone $item);
+                if(StringToItemParser::getInstance()->emit($item) == null){
+		  StringToItemParser::getInstance()->register($name, fn() => clone $item);
+                }
 	}
 
 	/**
