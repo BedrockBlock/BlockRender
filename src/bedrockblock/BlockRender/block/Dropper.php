@@ -7,12 +7,16 @@ namespace bedrockblock\BlockRender\block;
 use bedrockblock\BlockRender\utils\PlayerYFacingTrait;
 
 use pocketmine\block\Opaque;
+use pocketmine\data\bedrock\block\BlockStateNames;
+use pocketmine\data\bedrock\block\BlockTypeNames;
+use pocketmine\data\bedrock\block\convert\BlockStateReader;
+use pocketmine\data\bedrock\block\convert\BlockStateWriter;
 use pocketmine\data\runtime\{
 	RuntimeDataReader,
 	RuntimeDataWriter
 };
 
-class Dropper extends Opaque{
+class Dropper extends Opaque implements IBlockState{
 	use PlayerYFacingTrait;
 	use BlockTypeIdTrait;
 
@@ -32,6 +36,18 @@ class Dropper extends Opaque{
 	public function setTriggeredBit(bool $triggeredBit) : self{
 		$this->triggeredBit = $triggeredBit;
 		return $this;
+	}
+
+	public function encode() : BlockStateWriter{
+		return BlockStateWriter::create(BlockTypeNames::DISPENSER)
+			->writeFacingDirection($this->facing)
+			->writeBool(BlockStateNames::TRIGGERED_BIT, $this->triggeredBit);
+	}
+
+	public function decode(BlockStateReader $reader) : self{
+		return (clone $this)
+			->setFacing($reader->readFacingDirection())
+			->setTriggeredBit($reader->readBool(BlockStateNames::TRIGGERED_BIT));
 	}
 
 }

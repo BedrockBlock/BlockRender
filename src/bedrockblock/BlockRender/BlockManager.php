@@ -42,87 +42,18 @@ final class BlockManager{
 		self::register(VanillaBlocks::BIG_DRIPLEAF());
 		self::register(VanillaBlocks::BORDER_BLOCK());
 		self::register(VanillaBlocks::BUBBLE_COLUMN());
-		self::register(VanillaBlocks::CAMPFIRE());
+		self::register(VanillaBlocks::CAMPFIRE(), false);
 		self::register(VanillaBlocks::CAVE_VINES());
+		self::register(VanillaBlocks::CAVE_VINES_BODY_WITH_BERRIES());
+		self::register(VanillaBlocks::CAVE_VINES_HEAD_WITH_BERRIES());
+		self::register(VanillaBlocks::CHAIN(), false);
+		self::register(VanillaBlocks::CHAIN_COMMAND_BLOCK());
+		self::register(VanillaBlocks::COMMAND_BLOCK());
+		self::register(VanillaBlocks::COMPOSTER());
+		self::register(VanillaBlocks::DISPENSER());
+		self::register(VanillaBlocks::DROPPER());
 
 		/*
-		self::register(
-			VanillaBlocks::CAVE_VINES_HEAD_WITH_BERRIES(),
-			static fn(CaveVinesHeadWithBerries $block) : BlockStateWriter => BlockStateWriter::create(BlockTypeNames::CAVE_VINES_HEAD_WITH_BERRIES)->writeInt(BlockStateNames::GROWING_PLANT_AGE, $block->getAge()),
-			static fn(BlockStateReader $in) : CaveVinesHeadWithBerries => VanillaBlocks::CAVE_VINES_HEAD_WITH_BERRIES()->setAge($in->readInt(BlockStateNames::GROWING_PLANT_AGE))
-		);
-		self::register(
-			VanillaBlocks::CAVE_VINES_BODY_WITH_BERRIES(),
-			static fn(CaveVinesBodyWithBerries $block) : BlockStateWriter => BlockStateWriter::create(BlockTypeNames::CAVE_VINES_BODY_WITH_BERRIES)->writeInt(BlockStateNames::GROWING_PLANT_AGE, $block->getAge()),
-			static fn(BlockStateReader $in) : CaveVinesBodyWithBerries => VanillaBlocks::CAVE_VINES_BODY_WITH_BERRIES()->setAge($in->readInt(BlockStateNames::GROWING_PLANT_AGE))
-		);
-		self::register(
-			VanillaBlocks::CHAIN(), 
-			static fn(Chain $block) => BlockStateWriter::create(BlockTypeNames::CHAIN)
-				->writePillarAxis($block->getAxis()),
-			static function(BlockStateReader $in) : Chain{
-				return VanillaBlocks::CHAIN()
-					->setAxis($in->readPillarAxis());
-			},
-			false
-		);
-		self::register(
-			VanillaBlocks::CHAIN_COMMAND_BLOCK(),
-			static function(ChainCommandBlock $block) : BlockStateWriter{
-				return BlockStateWriter::create(BlockTypeNames::CHAIN_COMMAND_BLOCK)
-					->writeFacingDirection($block->getFacing())
-					->writeBool(BlockStateNames::CONDITIONAL_BIT, $block->isConditional());
-			},
-			static function(BlockStateReader $in) : ChainCommandBlock{
-				return VanillaBlocks::CHAIN_COMMAND_BLOCK()
-					->setFacing($in->readFacingDirection())
-					->setConditional($in->readBool(BlockStateNames::CONDITIONAL_BIT));
-			}
-		);
-		self::register(
-			VanillaBlocks::COMMAND_BLOCK(),
-			static function(CommandBlock $block) : BlockStateWriter{
-				return BlockStateWriter::create(BlockTypeNames::COMMAND_BLOCK)
-					->writeFacingDirection($block->getFacing())
-					->writeBool(BlockStateNames::CONDITIONAL_BIT, $block->isConditional());
-			},
-			static function(BlockStateReader $in) : CommandBlock{
-				return VanillaBlocks::COMMAND_BLOCK()
-					->setFacing($in->readFacingDirection())
-					->setConditional($in->readBool(BlockStateNames::CONDITIONAL_BIT));
-			}
-		);
-		self::register(
-			VanillaBlocks::COMPOSTER(),
-			static fn(Composter $block) : BlockStateWriter => BlockStateWriter::create(BlockTypeNames::COMPOSTER)->writeInt(BlockStateNames::COMPOSTER_FILL_LEVEL, $block->getFillLevel()),
-			static fn(BlockStateReader $in) : Composter => VanillaBlocks::COMPOSTER()->setFillLevel($in->readInt(BlockStateNames::COMPOSTER_FILL_LEVEL))
-		);
-		self::register(
-			VanillaBlocks::DISPENSER(),
-			static function(Dispenser $block) : BlockStateWriter{
-				return BlockStateWriter::create(BlockTypeNames::DISPENSER)
-					->writeFacingDirection($block->getFacing())
-					->writeBool(BlockStateNames::TRIGGERED_BIT, $block->isTriggeredBit());
-			},
-			static function(BlockStateReader $in) : Dispenser{
-				return VanillaBlocks::DISPENSER()
-					->setFacing($in->readFacingDirection())
-					->setTriggeredBit($in->readBool(BlockStateNames::TRIGGERED_BIT));
-			}
-		);
-		self::register(
-			VanillaBlocks::DROPPER(),
-			static function(Dropper $block) : BlockStateWriter{
-				return BlockStateWriter::create(BlockTypeNames::DROPPER)
-					->writeFacingDirection($block->getFacing())
-					->writeBool(BlockStateNames::TRIGGERED_BIT, $block->isTriggeredBit());
-			},
-			static function(BlockStateReader $in) : Dropper{
-				return VanillaBlocks::DROPPER()
-					->setFacing($in->readFacingDirection())
-					->setTriggeredBit($in->readBool(BlockStateNames::TRIGGERED_BIT));
-			}
-		);
 		self::register(
 			VanillaBlocks::PISTON(),
 			static fn(Piston $block) : BlockStateWriter => BlockStateWriter::create(BlockTypeNames::PISTON)->writeFacingDirection($block->getFacing()),

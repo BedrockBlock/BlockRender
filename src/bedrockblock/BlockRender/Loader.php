@@ -11,13 +11,13 @@ final class Loader extends PluginBase{
 
 	protected function onEnable() : void{
 		BlockManager::init();
-		//ItemManager::init();
+		ItemManager::init();
 		$pool = $this->getServer()->getAsyncPool();
 		$pool->addWorkerStartHook(function(int $worker) use($pool): void{
 			$pool->submitTaskToWorker(new class extends AsyncTask{
 				public function onRun() : void{
 					BlockManager::init();
-					//ItemManager::init();
+					ItemManager::init();
 				}
 			}, $worker);
 		});

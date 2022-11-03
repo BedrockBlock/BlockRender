@@ -10,8 +10,7 @@ use bedrockblock\BlockRender\item\VanillaItems;
 use pocketmine\block\Block;
 use pocketmine\data\bedrock\item\SavedItemData as Data;
 use pocketmine\item\{
-	Item, 
-	ItemBlock, 
+	Item,
 	StringToItemParser
 };
 use pocketmine\world\format\io\GlobalItemDataHandlers;
@@ -39,8 +38,9 @@ final class ItemManager{
 	private static function registerItemBlock() : void{
 		self::registerBlock(VanillaBlocks::CAMPFIRE());
 		self::registerBlock(VanillaBlocks::CHAIN());
+		/*
 		self::registerBlock(VanillaBlocks::KELP());
-		self::registerBlock(VanillaBlocks::SOUL_CAMPFIRE());
+		self::registerBlock(VanillaBlocks::SOUL_CAMPFIRE());*/
 	}
 
 	/**
@@ -64,7 +64,7 @@ final class ItemManager{
 	}
 
 	/**
-	 * @phpstan-template TBlockType of block
+	 * @phpstan-template TBlockType of Block
 	 * @phpstan-param TBlockType $block
 	 * @phpstan-param null|Closure(TBlockType) : Data $serializeCallback
 	 * @phpstan-param null|Closure(Data) : Block $deserializeCallback
@@ -77,8 +77,8 @@ final class ItemManager{
 		$name = strtolower(str_replace(' ', '_', $block->asItem()->getName()));
 		$namespace = 'minecraft:'.$name;
 
-		GlobalItemDataHandlers::getSerializer()->mapBlock($block, fn() => new Data($namespace));
-		GlobalItemDataHandlers::getDeserializer()->mapBlock($namespace, fn() => $block);
+		GlobalItemDataHandlers::getSerializer()->mapBlock($block, $serializeCallback ?? fn() => new Data($namespace));
+		GlobalItemDataHandlers::getDeserializer()->mapBlock($namespace, $deserializeCallback ?? fn() => $block);
 
 		StringToItemParser::getInstance()->registerBlock($name, fn() => clone $block);
 	}
