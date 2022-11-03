@@ -9,12 +9,20 @@ use pocketmine\block\utils\{
 	FacesOppositePlacingPlayerTrait,
 	HorizontalFacingTrait
 };
+use pocketmine\data\bedrock\block\{
+	BlockStateNames,
+	BlockTypeNames
+};
+use pocketmine\data\bedrock\block\convert\{
+	BlockStateReader,
+	BlockStateWriter
+};
 use pocketmine\data\runtime\{
 	RuntimeDataReader,
 	RuntimeDataWriter
 };
 
-class BigDripleaf extends Flowable{
+class BigDripleaf extends Flowable implements IBlockState{
 	use BlockTypeIdTrait;
 	use FacesOppositePlacingPlayerTrait;
 	use HorizontalFacingTrait;
@@ -51,6 +59,20 @@ class BigDripleaf extends Flowable{
 	public function setTilt(string $tilt) : self{
 		$this->tilt = $tilt;
 		return $this;
+	}
+
+	public function encode() : BlockStateWriter{
+		return BlockStateWriter::create(BlockTypeNames::BIG_DRIPLEAF)
+			->writeLegacyHorizontalFacing($this->facing)
+			->writeBool(BlockStateNames::BIG_DRIPLEAF_HEAD, $this->isHead)
+			->writeString(BlockStateNames::BIG_DRIPLEAF_TILT, $this->tilt);
+	}
+
+	public function decode(BlockStateReader $reader) : self{
+		return (clone $this)
+			->setFacing($reader->readLegacyHorizontalFacing())
+			->setHead($reader->readBool(BlockStateNames::BIG_DRIPLEAF_HEAD))
+			->setTilt($reader->readString(BlockStateNames::BIG_DRIPLEAF_TILT));
 	}
 
 }

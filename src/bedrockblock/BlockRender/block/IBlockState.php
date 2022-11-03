@@ -14,8 +14,9 @@ interface IBlockState{
 
 	public static function TYPE_ID() : int;
 
-	public function encode() : ?BlockStateWriter;
+	public function encode() : BlockStateWriter;
 
-	public function decode(BlockStateReader $reader) : ?Block;
+	/** @phpstan-return Block */
+	public function decode(BlockStateReader $reader) : self;
 
 }

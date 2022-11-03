@@ -47,7 +47,7 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static EndGateway END_GATEWAY()
  * @method static EndPortal END_PORTAL()
  * @method static FloweringAzalea FLOWERING_AZALEA()
- * @method staric FrogSpawn FROG_SPAWN()
+ * @method static FrogSpawn FROG_SPAWN()
  * @method static MossCarpet MOSS_CARPET()
  * @method static Piston PISTON()
  * @method static PistonArmCollision PISTON_ARM_COLLISION()
@@ -62,7 +62,7 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static SeaGrass SEAGRASS()
  * @method static SoulCampfire SOUL_CAMPFIRE()
  * @method static WarpedFungus WARPED_FUNGUS()
- * @method static WarpedNyliuk WARPED_NYLIUM()
+ * @method static WarpedNylium WARPED_NYLIUM()
  * @method static WarpedRoots WARPED_ROOTS()
  */
 final class VanillaBlocks{

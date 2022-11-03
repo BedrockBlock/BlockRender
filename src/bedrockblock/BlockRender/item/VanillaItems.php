@@ -13,10 +13,10 @@ use pocketmine\item\{
 use pocketmine\utils\CloningRegistryTrait;
 
 /**
- * @method staric ItemBlock CAMPFIRE()
- * @method staric ItemBlock CHAIN()
- * @method staric ItemBlock KELP()
- * @method staric ItemBlock SOUL_CAMPFIRE()
+ * @method static ItemBlock CAMPFIRE()
+ * @method static ItemBlock CHAIN()
+ * @method static ItemBlock KELP()
+ * @method static ItemBlock SOUL_CAMPFIRE()
  */
 final class VanillaItems{
 	use CloningRegistryTrait;
