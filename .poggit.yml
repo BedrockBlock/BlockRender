@@ -4,5 +4,6 @@ branches:
 - master
 projects:
   BlockRender:
+    lint: false
     path: ""
 ...
