@@ -38,9 +38,8 @@ final class ItemManager{
 	private static function registerItemBlock() : void{
 		self::registerBlock(VanillaBlocks::CAMPFIRE());
 		self::registerBlock(VanillaBlocks::CHAIN());
-		/*
 		self::registerBlock(VanillaBlocks::KELP());
-		self::registerBlock(VanillaBlocks::SOUL_CAMPFIRE());*/
+		/*self::registerBlock(VanillaBlocks::SOUL_CAMPFIRE());*/
 	}
 
 	/**

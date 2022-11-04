@@ -52,65 +52,14 @@ final class BlockManager{
 		self::register(VanillaBlocks::COMPOSTER());
 		self::register(VanillaBlocks::DISPENSER());
 		self::register(VanillaBlocks::DROPPER());
+		self::register(VanillaBlocks::KELP());
+		self::register(VanillaBlocks::PISTON());
+		self::register(VanillaBlocks::PISTON_ARM_COLLISION());
+		self::register(VanillaBlocks::REPEATING_COMMAND_BLOCK());
+		self::register(VanillaBlocks::SCULK_CATALYST());
+		self::register(VanillaBlocks::SCULK_SENSOR());
 
 		/*
-		self::register(
-			VanillaBlocks::PISTON(),
-			static fn(Piston $block) : BlockStateWriter => BlockStateWriter::create(BlockTypeNames::PISTON)->writeFacingDirection($block->getFacing()),
-			static fn(BlockStateReader $in) : Piston => VanillaBlocks::PISTON()->setFacing($in->readFacingDirection())
-		);
-		self::register(
-			VanillaBlocks::PISTON_ARM_COLLISION(),
-			static fn(PistonArmCollision $block) : BlockStateWriter => BlockStateWriter::create(BlockTypeNames::PISTON_ARM_COLLISION)->writeFacingDirection($block->getFacing()),
-			static fn(BlockStateReader $in) : PistonArmCollision => VanillaBlocks::PISTON_ARM_COLLISION()->setFacing($in->readFacingDirection())
-		);
-		self::register(
-			VanillaBlocks::REPEATING_COMMAND_BLOCK(),
-			static function(RepeatingCommandBlock $block) : BlockStateWriter{
-				return BlockStateWriter::create(BlockTypeNames::REPEATING_COMMAND_BLOCK)
-					->writeFacingDirection($block->getFacing())
-					->writeBool(BlockStateNames::CONDITIONAL_BIT, $block->isConditional());
-			},
-			static function(BlockStateReader $in) : RepeatingCommandBlock{
-				return VanillaBlocks::REPEATING_COMMAND_BLOCK()
-					->setFacing($in->readFacingDirection())
-					->setConditional($in->readBool(BlockStateNames::CONDITIONAL_BIT));
-			}
-		);
-		self::register(
-			VanillaBlocks::KELP(),
-			static function(Kelp $block) : BlockStateWriter{
-				return BlockStateWriter::create(BlockTypeNames::KELP)
-					->writeInt(BlockStateNames::KELP_AGE, $block->getKelpAge());
-			},
-			static function(BlockStateReader $in) : Kelp{
-				return VanillaBlocks::KELP()
-					->setKelpAge($in->readInt(BlockStateNames::KELP_AGE));
-			},
-			false
-		);
-		self::register(
-			VanillaBlocks::SCULK_CATALYST(),
-			static function(SculkCatalyst $block) : BlockStateWriter{
-				return BlockStateWriter::create(BlockTypeNames::SCULK_CATALYST)
-					->writeBool(BlockStateNames::BLOOM, $block->isBloom());
-			},
-			static function(BlockStateReader $in) : SculkCatalyst{
-				return VanillaBlocks::SCULK_CATALYST()
-					->setBloom($in->readBool(BlockStateNames::BLOOM));
-			}
-		);
-		self::register(
-			VanillaBlocks::SCULK_SENSOR(),
-			static function(SculkSensor $block) : BlockStateWriter{
-				return BlockStateWriter::create(BlockTypeNames::SCULK_SENSOR)
-					->writeBool(BlockStateNames::POWERED_BIT, $block->isPoweredBit());
-			},
-			static function(BlockStateReader $in) : SculkSensor{
-				return VanillaBlocks::SCULK_SENSOR()
-					->setPoweredBit($in->readBool(BlockStateNames::POWERED_BIT));
-			}
-		);
 		self::register(
 			VanillaBlocks::SCULK_SHRIEKER(),
 			static function(SculkShrieker $block) : BlockStateWriter{
@@ -172,7 +121,10 @@ final class BlockManager{
 		$name = strtolower(str_replace(' ', '_', $block->getName()));
 		$namespace = 'minecraft:' . $name;
 
-		GlobalBlockStateHandlers::getSerializer()->map($block, static fn(Block $b) : BlockStateWriter => $b->encode());
+		GlobalBlockStateHandlers::getSerializer()->map($block,
+			/** @phpstan-param Block|IBlockState $b */
+			static fn(Block $b) : BlockStateWriter => $b->encode()
+		);
 		GlobalBlockStateHandlers::getDeserializer()->map($namespace, static fn(BlockStateReader $reader) : Block => $block->decode($reader));
 
 		if($addItemParser){
