@@ -48,7 +48,7 @@ class SoulCampfire extends Opaque implements IBlockState{
 			->writeBool(BlockStateNames::EXTINGUISHED, $this->extinguished);
 	}
 
-	public function decode(BlockStateReader $reader) : IBlockState{
+	public function decode(BlockStateReader $reader) : self{
 		return (clone $this)
 			->setFacing($reader->readFacingDirection())
 			->setExtinguished($reader->readBool(BlockStateNames::EXTINGUISHED));
