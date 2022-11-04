@@ -39,7 +39,7 @@ class Dropper extends Opaque implements IBlockState{
 	}
 
 	public function encode() : BlockStateWriter{
-		return BlockStateWriter::create(BlockTypeNames::DISPENSER)
+		return BlockStateWriter::create(BlockTypeNames::DROPPER)
 			->writeFacingDirection($this->facing)
 			->writeBool(BlockStateNames::TRIGGERED_BIT, $this->triggeredBit);
 	}

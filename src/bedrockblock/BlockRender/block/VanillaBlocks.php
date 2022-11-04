@@ -72,7 +72,7 @@ final class VanillaBlocks{
 		//NOOP
 	}
 
-	protected static function register(string $name, Block $block) : void{
+	protected static function register(string $name, Block&IBlockState $block) : void{
 		self::_registryRegister($name, $block);
 	}
 

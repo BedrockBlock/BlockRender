@@ -43,9 +43,7 @@ final class ItemManager{
 	}
 
 	/**
-	 * @phpstan-template TItemType of item
-	 * @phpstan-param TItemType $item
-	 * @phpstan-param null|Closure(TItemType) : Data $serializeCallback
+	 * @phpstan-param null|Closure(Item) : Data $serializeCallback
 	 * @phpstan-param null|Closure(Data) : Item $deserializeCallback
 	 */
 	public static function register(
@@ -63,9 +61,7 @@ final class ItemManager{
 	}
 
 	/**
-	 * @phpstan-template TBlockType of Block
-	 * @phpstan-param TBlockType $block
-	 * @phpstan-param null|Closure(TBlockType) : Data $serializeCallback
+	 * @phpstan-param null|Closure(Block) : Data $serializeCallback
 	 * @phpstan-param null|Closure(Data) : Block $deserializeCallback
 	 */
 	public static function registerBlock(
@@ -76,8 +72,8 @@ final class ItemManager{
 		$name = strtolower(str_replace(' ', '_', $block->asItem()->getName()));
 		$namespace = 'minecraft:'.$name;
 
-		GlobalItemDataHandlers::getSerializer()->mapBlock($block, $serializeCallback ?? fn() => new Data($namespace));
-		GlobalItemDataHandlers::getDeserializer()->mapBlock($namespace, $deserializeCallback ?? fn() => $block);
+		GlobalItemDataHandlers::getSerializer()->mapBlock($block, $serializeCallback ?? static fn() => new Data($namespace));
+		GlobalItemDataHandlers::getDeserializer()->mapBlock($namespace, $deserializeCallback ?? static fn() => clone $block);
 
 		StringToItemParser::getInstance()->registerBlock($name, fn() => clone $block);
 	}

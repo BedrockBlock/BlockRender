@@ -73,7 +73,7 @@ final class BlockManager{
 		$namespace = 'minecraft:' . $name;
 
 		GlobalBlockStateHandlers::getSerializer()->map($block,
-			/** @phpstan-param Block|IBlockState $b */
+			/** @phpstan-param Block&IBlockState $b */
 			static fn(Block $b) : BlockStateWriter => $b->encode()
 		);
 		GlobalBlockStateHandlers::getDeserializer()->map($namespace, static fn(BlockStateReader $reader) : Block => $block->decode($reader));
