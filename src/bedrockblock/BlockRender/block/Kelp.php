@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Flowable;
+use pocketmine\data\bedrock\block\BlockStateNames;
+use pocketmine\data\bedrock\block\BlockTypeNames;
+use pocketmine\data\bedrock\block\convert\BlockStateReader;
+use pocketmine\data\bedrock\block\convert\BlockStateWriter;
 use pocketmine\data\runtime\{
 	RuntimeDataReader,
 	RuntimeDataWriter
 };
 
-class Kelp extends Flowable{
+class Kelp extends Flowable implements IBlockState{
 	use BlockTypeIdTrait;
 
 	private int $kelpAge = 0;
@@ -28,6 +32,14 @@ class Kelp extends Flowable{
 	public function setKelpAge(int $kelpAge) : self{
 		$this->kelpAge = $kelpAge;
 		return $this;
+	}
+
+	public function encode() : BlockStateWriter{
+		return BlockStateWriter::create(BlockTypeNames::KELP)->writeInt(BlockStateNames::KELP_AGE, $this->kelpAge);
+	}
+
+	public function decode(BlockStateReader $reader) : self{
+		return (clone $this)->setKelpAge($reader->readInt(BlockStateNames::KELP_AGE));
 	}
 
 }

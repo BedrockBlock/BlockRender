@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Opaque;
 
-class WarpedNylium extends Opaque{
-	use BlockTypeIdTrait;
+class WarpedNylium extends Opaque implements IBlockState{
+	use NoneStateTrait;
 }

@@ -6,6 +6,6 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Opaque;
 
-class ReinforcedDeepslate extends Opaque{
-	use BlockTypeIdTrait;
+class ReinforcedDeepslate extends Opaque implements IBlockState{
+	use NoneStateTrait;
 }

@@ -5,6 +5,14 @@ declare(strict_types=1);
 namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\Opaque;
+use pocketmine\data\bedrock\block\{
+	BlockStateNames,
+	BlockTypeNames
+};
+use pocketmine\data\bedrock\block\convert\{
+	BlockStateReader,
+	BlockStateWriter
+};
 use pocketmine\block\utils\{
 	FacesOppositePlacingPlayerTrait,
 	HorizontalFacingTrait
@@ -14,7 +22,7 @@ use pocketmine\data\runtime\{
 	RuntimeDataWriter
 };
 
-class Beehive extends Opaque{
+class Beehive extends Opaque implements IBlockState{
 	use FacesOppositePlacingPlayerTrait;
 	use HorizontalFacingTrait;
 	use BlockTypeIdTrait;
@@ -35,6 +43,18 @@ class Beehive extends Opaque{
 	public function setHoneyLevel(int $level) : self{
 		$this->honey_level = $level;
 		return $this;
+	}
+
+	public function encode() : BlockStateWriter{
+		return BlockStateWriter::create(BlockTypeNames::BEEHIVE)
+			->writeLegacyHorizontalFacing($this->facing)
+			->writeInt(BlockStateNames::HONEY_LEVEL, $this->honey_level);
+	}
+
+	public function decode(BlockStateReader $reader) : self{
+		return (clone $this)
+			->setFacing($reader->readLegacyHorizontalFacing())
+			->setHoneyLevel($reader->readInt(BlockStateNames::HONEY_LEVEL));
 	}
 
 }

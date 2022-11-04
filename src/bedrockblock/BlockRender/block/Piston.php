@@ -6,6 +6,9 @@ namespace bedrockblock\BlockRender\block;
 
 use pocketmine\block\{Block, Opaque};
 use pocketmine\block\utils\AnyFacingTrait;
+use pocketmine\data\bedrock\block\BlockTypeNames;
+use pocketmine\data\bedrock\block\convert\BlockStateReader;
+use pocketmine\data\bedrock\block\convert\BlockStateWriter;
 use pocketmine\data\runtime\{
 	RuntimeDataReader,
 	RuntimeDataWriter
@@ -15,7 +18,7 @@ use pocketmine\math\{Vector3, Facing};
 use pocketmine\player\Player;
 use pocketmine\world\BlockTransaction;
 
-class Piston extends Opaque{
+class Piston extends Opaque implements IBlockState{
 	use AnyFacingTrait;
 	use BlockTypeIdTrait;
 
@@ -38,6 +41,14 @@ class Piston extends Opaque{
 			}
 		}
 		return parent::place($tx, $item, $blockReplace, $blockClicked, $face, $clickVector, $player);
+	}
+
+	public function encode() : BlockStateWriter{
+		return BlockStateWriter::create(BlockTypeNames::PISTON)->writeFacingDirection($this->facing);
+	}
+
+	public function decode(BlockStateReader $reader) : self{
+		return (clone $this)->setFacing($reader->readFacingDirection());
 	}
 
 }
