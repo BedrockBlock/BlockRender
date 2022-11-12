@@ -87,7 +87,12 @@ trait MultiDirectionTrait{
 		if($blockReplace instanceof self){
 			$this->faces = $blockReplace->getFaces();
 		}
-		$opposite = Facing::opposite($face);
+		$opposite = match($facing = Facing::opposite($face)){
+			Facing::SOUTH => Facing::NORTH,
+			Facing::WEST => Facing::SOUTH,
+			Facing::NORTH => Facing::WEST,
+			default => $facing
+		};
 		if($this->faces[$opposite]){
 			return false;
 		}
@@ -99,9 +104,9 @@ trait MultiDirectionTrait{
 		return $writer->writeInt(BlockStateNames::MULTI_FACE_DIRECTION_BITS,
 			($this->hasFace(Facing::DOWN) ? MultiFaceFlags::DOWN : 0) |
 			($this->hasFace(Facing::UP) ? MultiFaceFlags::UP : 0) |
-			($this->hasFace(Facing::NORTH) ? MultiFaceFlags::NORTH : 0) |
-			($this->hasFace(Facing::SOUTH) ? MultiFaceFlags::SOUTH : 0) |
-			($this->hasFace(Facing::WEST) ? MultiFaceFlags::WEST : 0) |
+			($this->hasFace(Facing::NORTH) ? MultiFaceFlags::WEST : 0) |
+			($this->hasFace(Facing::SOUTH) ? MultiFaceFlags::NORTH : 0) |
+			($this->hasFace(Facing::WEST) ? MultiFaceFlags::SOUTH : 0) |
 			($this->hasFace(Facing::EAST) ? MultiFaceFlags::EAST : 0)
 		);
 	}
@@ -116,18 +121,17 @@ trait MultiDirectionTrait{
 			$faces[] = Facing::UP;
 		}
 		if(($flags & MultiFaceFlags::NORTH) !== 0){
-			$faces[] = Facing::NORTH;
+			$faces[] = Facing::WEST;
 		}
 		if(($flags & MultiFaceFlags::SOUTH) !== 0){
-			$faces[] = Facing::SOUTH;
+			$faces[] = Facing::NORTH;
 		}
 		if(($flags & MultiFaceFlags::WEST) !== 0){
-			$faces[] = Facing::WEST;
+			$faces[] = Facing::SOUTH;
 		}
 		if(($flags & MultiFaceFlags::EAST) !== 0){
 			$faces[] = Facing::EAST;
 		}
 		return $block->setFaces($faces);
 	}
-
 }

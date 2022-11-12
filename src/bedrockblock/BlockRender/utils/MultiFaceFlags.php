@@ -12,9 +12,8 @@ final class MultiFaceFlags{
 
 	public const DOWN = 0x01;
 	public const UP = 0x02;
-	public const SOUTH = 0x04;
-	public const WEST = 0x08;
-	public const NORTH = 0x10;
+	public const WEST = 0x04;
+	public const NORTH = 0x08;
+	public const SOUTH = 0x10;
 	public const EAST = 0x20;
-
 }
