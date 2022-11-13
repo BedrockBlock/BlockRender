@@ -61,8 +61,8 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static SculkShrieker SCULK_SHRIEKER()
  * @method static SeaGrass SEAGRASS()
  * @method static SoulCampfire SOUL_CAMPFIRE()
- * @method static GridStone GRIDSTONE()
  * @method static GlowLichen GLOW_LICHEN()
+ * @method static GridStone GRIDSTONE()
  * @method static HoneyBlock HONEY_BLOCK()
  * @method static WarpedFungus WARPED_FUNGUS()
  * @method static WarpedNylium WARPED_NYLIUM()
@@ -212,15 +212,15 @@ final class VanillaBlocks{
 			'Seagrass',
 			new Info(self::blockToolShears(0.0))
 		));
-		self::register('gridstone', new GridStone(
-			new BID(GridStone::TYPE_ID()),
-			'Gridstone',
-			new Info(BreakInfo::pickaxe(2.0))
-		));
 		self::register('glow_lichen', new GlowLichen(
 			new BID(GlowLichen::TYPE_ID()),
 			'Glow Lichen',
 			new Info(self::anyZero())
+		));
+		self::register('gridstone', new GridStone(
+			new BID(GridStone::TYPE_ID()),
+			'Gridstone',
+			new Info(BreakInfo::pickaxe(2.0))
 		));
 		self::register('honey_block', new HoneyBlock(
 			new BID(HoneyBlock::TYPE_ID()),

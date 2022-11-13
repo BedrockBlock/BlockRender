@@ -10,10 +10,18 @@ final class MultiFaceFlags{
 		//NOOP
 	}
 
-	public const DOWN = 0x01;
-	public const UP = 0x02;
-	public const WEST = 0x04;
-	public const NORTH = 0x08;
-	public const SOUTH = 0x10;
-	public const EAST = 0x20;
+	public const ENCODE_DOWN = 0x01;
+	public const ENCODE_UP = 0x02;
+	public const ENCODE_NORTH = 0x04;
+	public const ENCODE_SOUTH = 0x08;
+	public const ENCODE_WEST = 0x10;
+	public const ENCODE_EAST = 0x20;
+
+	public const DECODE_DOWN = 0x01;
+	public const DECODE_UP = 0x02;
+	public const DECODE_SOUTH = 0x04;
+	public const DECODE_WEST = 0x08;
+	public const DECODE_NORTH = 0x10;
+	public const DECODE_EAST = 0x20;
+
 }

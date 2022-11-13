@@ -63,8 +63,8 @@ final class BlockManager{
 		self::register(VanillaBlocks::SCULK_SHRIEKER());
 		self::register(VanillaBlocks::SEAGRASS());
 		self::register(VanillaBlocks::SOUL_CAMPFIRE(), false);
-		self::register(VanillaBlocks::GRIDSTONE());
 		self::register(VanillaBlocks::GLOW_LICHEN());
+		self::register(VanillaBlocks::GRIDSTONE());
 		self::register(VanillaBlocks::HONEY_BLOCK());
 		self::register(VanillaBlocks::WARPED_FUNGUS());
 		self::register(VanillaBlocks::WARPED_NYLIUM());

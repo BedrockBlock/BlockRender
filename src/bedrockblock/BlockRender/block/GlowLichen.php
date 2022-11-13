@@ -34,4 +34,5 @@ class GlowLichen extends Flowable implements IBlockState{
 	public function decode(BlockStateReader $reader) : self{
 		return $this->decodeHelper(clone $this, $reader);
 	}
+
 }

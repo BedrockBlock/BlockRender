@@ -102,34 +102,34 @@ trait MultiDirectionTrait{
 
 	protected function encodeHelper(BlockStateWriter $writer) : BlockStateWriter{
 		return $writer->writeInt(BlockStateNames::MULTI_FACE_DIRECTION_BITS,
-			($this->hasFace(Facing::DOWN) ? MultiFaceFlags::DOWN : 0) |
-			($this->hasFace(Facing::UP) ? MultiFaceFlags::UP : 0) |
-			($this->hasFace(Facing::NORTH) ? MultiFaceFlags::WEST : 0) |
-			($this->hasFace(Facing::SOUTH) ? MultiFaceFlags::NORTH : 0) |
-			($this->hasFace(Facing::WEST) ? MultiFaceFlags::SOUTH : 0) |
-			($this->hasFace(Facing::EAST) ? MultiFaceFlags::EAST : 0)
+			($this->hasFace(Facing::DOWN) ? MultiFaceFlags::ENCODE_DOWN : 0) |
+			($this->hasFace(Facing::UP) ? MultiFaceFlags::ENCODE_UP : 0) |
+			($this->hasFace(Facing::NORTH) ? MultiFaceFlags::ENCODE_NORTH : 0) |
+			($this->hasFace(Facing::SOUTH) ? MultiFaceFlags::ENCODE_SOUTH : 0) |
+			($this->hasFace(Facing::WEST) ? MultiFaceFlags::ENCODE_WEST : 0) |
+			($this->hasFace(Facing::EAST) ? MultiFaceFlags::ENCODE_EAST : 0)
 		);
 	}
 
 	public function decodeHelper(self $block, BlockStateReader $reader) : self{
 		$flags = $reader->readBoundedInt(BlockStateNames::MULTI_FACE_DIRECTION_BITS, 0, 63);
 		$faces = [];
-		if(($flags & MultiFaceFlags::DOWN) !== 0){
+		if(($flags & MultiFaceFlags::DECODE_DOWN) !== 0){
 			$faces[] = Facing::DOWN;
 		}
-		if(($flags & MultiFaceFlags::UP) !== 0){
+		if(($flags & MultiFaceFlags::DECODE_UP) !== 0){
 			$faces[] = Facing::UP;
 		}
-		if(($flags & MultiFaceFlags::NORTH) !== 0){
+		if(($flags & MultiFaceFlags::DECODE_WEST) !== 0){
 			$faces[] = Facing::WEST;
 		}
-		if(($flags & MultiFaceFlags::SOUTH) !== 0){
+		if(($flags & MultiFaceFlags::DECODE_NORTH) !== 0){
 			$faces[] = Facing::NORTH;
 		}
-		if(($flags & MultiFaceFlags::WEST) !== 0){
+		if(($flags & MultiFaceFlags::DECODE_SOUTH) !== 0){
 			$faces[] = Facing::SOUTH;
 		}
-		if(($flags & MultiFaceFlags::EAST) !== 0){
+		if(($flags & MultiFaceFlags::DECODE_EAST) !== 0){
 			$faces[] = Facing::EAST;
 		}
 		return $block->setFaces($faces);
