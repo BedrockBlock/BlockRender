@@ -64,6 +64,9 @@ use pocketmine\utils\CloningRegistryTrait;
  * @method static GlowLichen GLOW_LICHEN()
  * @method static GrindStone GRINDSTONE()
  * @method static HoneyBlock HONEY_BLOCK()
+ * @method static InfestedDeepslate INFESTED_DEEPSLATE()
+ * @method static LargeAmethystBud LARGE_AMETHYST_BUD()
+ * @method static Lodestone LODESTONE()
  * @method static WarpedFungus WARPED_FUNGUS()
  * @method static WarpedNylium WARPED_NYLIUM()
  * @method static WarpedRoots WARPED_ROOTS()
@@ -227,6 +230,16 @@ final class VanillaBlocks{
 			'Honey Block',
 			new Info(self::anyZero())
 		));
+		self::register('infested_deepslate', new InfestedDeepslate(
+			new BID(InfestedDeepslate::TYPE_ID()),
+			'Infested Deepslate',
+			new info(BreakInfo::pickaxe(1.5))
+		));
+		self::register('lodestone', new Lodestone(
+			new BID(Lodestone::TYPE_ID()),
+			'Lodestone',
+			new Info(BreakInfo::pickaxe(3.5))
+		));
 	}
 
 	private static function registerWall() : void{
@@ -247,6 +260,11 @@ final class VanillaBlocks{
 		self::register('budding_amethyst', new BuddingAmethyst(
 			new BID(BuddingAmethyst::TYPE_ID()),
 			'Budding Amethyst',
+			$info
+		));
+		self::register('large_amethyst_bud', new LargeAmethystBud(
+			new BID(LargeAmethystBud::TYPE_ID()),
+			'Large Amethyst Bud',
 			$info
 		));
 	}

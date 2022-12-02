@@ -66,6 +66,9 @@ final class BlockManager{
 		self::register(VanillaBlocks::GLOW_LICHEN());
 		self::register(VanillaBlocks::GRINDSTONE());
 		self::register(VanillaBlocks::HONEY_BLOCK());
+		self::register(VanillaBlocks::INFESTED_DEEPSLATE());
+		self::register(VanillaBlocks::LARGE_AMETHYST_BUD());
+		self::register(VanillaBlocks::LODESTONE());
 		self::register(VanillaBlocks::WARPED_FUNGUS());
 		self::register(VanillaBlocks::WARPED_NYLIUM());
 		self::register(VanillaBlocks::WARPED_ROOTS());
