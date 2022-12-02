@@ -5,18 +5,12 @@ declare(strict_types=1);
 namespace bedrockblock\BlockRender;
 
 use bedrockblock\BlockRender\block\VanillaBlocks;
-use bedrockblock\BlockRender\item\VanillaItems;
+use Closure;
 
 use pocketmine\block\Block;
 use pocketmine\data\bedrock\item\SavedItemData as Data;
-use pocketmine\item\{
-	Item,
-	StringToItemParser
-};
+use pocketmine\item\{Item, StringToItemParser};
 use pocketmine\world\format\io\GlobalItemDataHandlers;
-
-use Closure;
-
 use function str_replace;
 use function strtolower;
 

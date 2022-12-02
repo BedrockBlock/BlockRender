@@ -22,7 +22,7 @@ use pocketmine\data\runtime\{
 	RuntimeDataWriter
 };
 
-class GridStone extends Opaque implements IBlockState{
+class GrindStone extends Opaque implements IBlockState{
 	use BlockTypeIdTrait;
 	use FacesOppositePlacingPlayerTrait;
 	use HorizontalFacingTrait;
@@ -31,7 +31,7 @@ class GridStone extends Opaque implements IBlockState{
 	public const ATTACHMENT_HANGING = 'hanging';
 	public const ATTACHMENT_SIDE = 'side';
 	public const ATTACHMENT_MULTIPLE = 'multiple';
-	
+
 
 	private string $attachment = self::ATTACHMENT_STANDING;
 
